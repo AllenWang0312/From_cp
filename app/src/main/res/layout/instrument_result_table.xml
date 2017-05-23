@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_tables"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/add_titles_instrument"
+            android:layout_width="36dp"
+            android:padding="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="+"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="标样"
+            android:textSize="@dimen/textSize"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="试样"
+            android:textSize="@dimen/textSize"/>
+
+        <Button
+            android:id="@+id/bt_rc_result"
+            android:layout_width="60dp"
+            android:padding="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="容差"
+            android:textSize="@dimen/textSize"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="差值"
+            android:textSize="@dimen/textSize"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="结果"
+            android:gravity="center"
+            android:textSize="@dimen/textSize"
+            android:id="@+id/result_tv_result__table"/>
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_instrument"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </ListView>
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    //分光测色仪器蓝牙名  0
+    <string-array name="light_color_instrument_model">
+        <item>分光测色仪器</item>
+        <item>Liujiaoti</item>
+        <item>BQ</item>
+        <item>HeMe</item>
+        <item>SH-HC</item>
+    </string-array>
+    //1
+    <string-array name="chromatism_instrument_model">
+    </string-array>
+    //2
+    <string-array name="lustre_instrument_model">
+        <item>光泽度计</item>
+        <item>CS</item>
+    </string-array>
+    //3
+    <string-array name="raman_instrument_model">
+    </string-array>
+
+    //分光测色仪器蓝牙版本  4.0
+    <string-array name="ble_version_4">
+        <item>BQ</item>
+        <item>HeMe</item>
+        <item>SH-HC</item>
+    </string-array>
+    //2.0
+    <string-array name="ble_version_2">
+        <item>CS</item>
+        <item>Liujiaoti</item>
+    </string-array>
+
+    <string-array name="products_fgcs">
+        <item> 分光测色仪</item>
+        <item> 分光测色仪</item>
+        <item> 分光测色仪</item>
+        <item> 分光测色仪</item>
+        <item> 分光测色仪</item>
+    </string-array>
+    <string-array name="products_gzd">
+        <item> 光泽度计</item>
+        <item> 光泽度计</item>
+        <item> 光泽度计</item>
+        <item> 光泽度计</item>
+        <item> 光泽度计</item>
+    </string-array>
+    <string-array name="products_sc">
+        <item> 色差仪</item>
+        <item> 色差仪</item>
+        <item> 色差仪</item>
+        <item> 色差仪</item>
+        <item> 色差仪</item>
+    </string-array>
+    <string-array name="products_lm">
+        <item> 拉曼</item>
+        <item> 拉曼</item>
+        <item> 拉曼</item>
+        <item> 拉曼</item>
+        <item> 拉曼</item>
+    </string-array>
+</resources>

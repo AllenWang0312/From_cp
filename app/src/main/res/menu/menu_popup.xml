@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/first_set_instrument"
+        android:icon="@drawable/ic_gps_fixed_white_24dp"
+        android:title="@string/initnized"
+        />
+
+    <item
+        android:id="@+id/second_set_instrument"
+        android:icon="@drawable/ic_delete_white_24dp"
+        android:title="@string/delete"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        />
+    <item
+        android:id="@+id/third_set_instrument"
+        android:icon="@drawable/ic_info_white_24dp"
+        android:title="@string/ins_info"
+        />
+</menu>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<litepal>-->
+    <!--<dbname value="app_data"></dbname>-->
+
+    <!--<version value="1"></version>-->
+
+    <!--<list>-->
+        <!--&lt;!&ndash;<mapping class="color.measurement.com.from_cp20.module.measure.lightcolor.bean.SimpleData"></mapping>&ndash;&gt;-->
+
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.User"></mapping>-->
+
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.Instrument.LightColorIns"></mapping>-->
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.Instrument.ChromatismIns"></mapping>-->
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.Instrument.LustreIns"></mapping>-->
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.Instrument.RamanIns"></mapping>-->
+
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.data.LightColorData"></mapping>-->
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.data.ChromatismData"></mapping>-->
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.data.LustreData"></mapping>-->
+        <!--<mapping class="color.measurement.com.from_cp20.manager.db.data.RamanData"></mapping>-->
+
+    <!--</list>-->
+<!--</litepal>-->

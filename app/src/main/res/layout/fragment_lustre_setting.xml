@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tl_set_stand_lustre"
+                 android:layout_width="250dp"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical">
+
+        <TableRow
+            android:layout_height="40dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="平均次数"/>
+
+            <Spinner
+                android:id="@+id/sp_test_times_lustre"
+                android:entries="@array/times_set"></Spinner>
+        </TableRow>
+
+        <TableRow
+            android:layout_height="40dp"
+            android:gravity="center_vertical">
+
+            <TextView android:text="显示数据"/>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/ll_stand_angles"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                app:flexDirection="row"
+                app:flexWrap="wrap"
+                app:justifyContent="space_around"
+                app:alignItems="center"
+                >
+
+            </com.google.android.flexbox.FlexboxLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_height="40dp"
+            android:gravity="center_vertical">
+
+            <TextView android:text="数据保存"/>
+
+            <CheckBox
+                android:id="@+id/cb_remb_name_stand_lustre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自动分配名称备注"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

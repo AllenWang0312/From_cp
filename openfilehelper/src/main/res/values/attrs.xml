@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FSL_table">
+
+        <attr name="t_sci_color" format="reference|color"/>
+        <attr name="s_sci_color" format="reference|color"/>
+        <attr name="t_sce_color" format="reference|color"/>
+        <attr name="s_sce_color" format="reference|color"/>
+
+        <attr name="unit" format="string"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="TabSwitcher">
+        <attr name="text_color" format="reference|color"/>
+        <attr name="bg_color" format="reference|color"/>
+        <attr name="select_bg_color" format="reference|color"/>
+        <attr name="content_framelayout_id" format="integer"/>
+    </declare-styleable>
+
+
+</resources>

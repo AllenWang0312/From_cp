@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+           tools:ignore="MissingTranslation">
+    <string-array name="entries">
+        <item>simpleentries1</item>
+        <item>simpleentries1</item>
+        <item>simpleentries1</item>
+        <item>simpleentries1</item>
+        <item>simpleentries1</item>
+    </string-array>
+    <integer-array name="colors">
+        <item>0xf44336</item>
+        <item>0xe91e63</item>
+        <item>0x9c27b0</item>
+        <item>0x673ab7</item>
+        <item>0x3f51b5</item>
+        <item>0x2196f3</item>
+        <item>0x00bcd4</item>
+        <item>0x009688</item>
+        <item>0x4caf50</item>
+        <item>0xffeb3b</item>
+        <item>0xffc107</item>
+        <item>0xff9800</item>
+    </integer-array>
+</resources>

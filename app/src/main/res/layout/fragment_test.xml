@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <!--android:padding="@dimen/cardview_margin_page"-->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            style="@style/SameCornerRadiusCardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <color.measurement.com.from_cp20.widget.FSL.FSL_table
+                android:id="@+id/fsl_table"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:s_sci_color="@color/accent_red"
+                app:t_sci_color="@color/accent_green"
+                app:unit="nm"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            style="@style/SameCornerRadiusCardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/sc_layout"></include>
+        </android.support.v7.widget.CardView>
+
+
+            <color.measurement.com.from_cp20.widget.viewgroup.SlowHorizontalScrollView
+                android:translationZ="8dp"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/ll_titles_test"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_stand_test"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp" android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_dev_test"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp" android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyc_test"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+            </color.measurement.com.from_cp20.widget.viewgroup.SlowHorizontalScrollView>
+
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>

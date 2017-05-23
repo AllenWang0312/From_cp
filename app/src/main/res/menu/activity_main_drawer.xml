@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <!--<item-->
+        <!--android:id="@+id/nav_camera"-->
+        <!--android:icon="@drawable/ic_menu_camera"-->
+        <!--android:title="Import"/>-->
+        <!--<item-->
+        <!--android:id="@+id/nav_gallery"-->
+        <!--android:icon="@drawable/ic_menu_gallery"-->
+        <!--android:title="Gallery"/>-->
+        <!--<item-->
+        <!--android:id="@+id/nav_slideshow"-->
+        <!--android:icon="@drawable/ic_menu_slideshow"-->
+        <!--android:title="Slideshow"/>-->
+
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_question_answer_black_24dp"
+            android:title="@string/mine_notification"/>
+        <item
+            android:id="@+id/nav_orderform"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="@string/orderform"/>
+        <item
+            android:id="@+id/nav_db"
+            android:icon="@drawable/ic_folder_shared_black_24dp"
+            android:title="@string/db"/>
+        <item
+            android:id="@+id/nav_tools"
+            android:icon="@drawable/ic_build_black_24dp"
+            android:title="@string/tools"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings"/>
+
+    </group>
+
+    <item android:title="@string/more">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/share"/>
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_mode_edit_black_24dp"
+                android:title="@string/message_board"/>
+            <item
+                android:id="@+id/nav_aboutus"
+                android:icon="@drawable/ic_location_city_black_24dp"
+                android:title="@string/aboutus"/>
+        </menu>
+    </item>
+
+</menu>

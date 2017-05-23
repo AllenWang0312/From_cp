@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="名称"/>
+
+            <EditText
+                android:id="@+id/et_content_named"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="备注"/>
+
+            <EditText
+                android:id="@+id/et_tips_named"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                />
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+        <!--style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"-->
+
+
+        <Button
+            android:id="@+id/bt_named_start_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存并开始色差测量"/>
+
+        <Button
+            android:id="@+id/bt_quxiao"
+
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="@string/quxiao"/>
+        <!--style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"-->
+        <Button
+            android:id="@+id/bt_queding"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="@string/save"/>
+    </LinearLayout>
+
+</LinearLayout>

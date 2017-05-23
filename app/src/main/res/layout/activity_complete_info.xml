@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="color.measurement.com.from_cp20.module.other.CompleteInfoActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <include layout="@layout/toolbar"></include>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <!--<TableRow>-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="手机号码"/>-->
+
+                        <EditText
+                            android:id="@+id/et_tel_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+                            android:editable="false"
+                            android:ems="10"
+                            android:hint="手机号码"
+                            android:inputType="textPersonName"
+                            />
+                        <!--</TableRow>-->
+
+                        <!--<TableRow>-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="用户名"/>-->
+
+                        <EditText
+                            android:id="@+id/et_ename_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+
+                            android:ems="10"
+                            android:hint="用户名"
+                            android:inputType="textPersonName"
+                            />
+                        <!--</TableRow>-->
+
+                        <!--<TableRow>-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="密码"/>-->
+
+                        <EditText
+                            android:id="@+id/et_pswd_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+                            android:ems="10"
+                            android:hint="密码"
+                            android:inputType="textPersonName|textPassword"
+                            />
+                        <!--</TableRow>-->
+
+                        <!--<TableRow>-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="确认密码"/>-->
+
+                        <EditText
+                            android:id="@+id/et_repswd_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+                            android:ems="10"
+                            android:hint="确认密码"
+                            android:inputType="textPersonName|textPassword"
+                            />
+                        <!--</TableRow>-->
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="-------------------------------------"/>
+
+                        <!--<TableRow>-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="生日"/>-->
+
+                        <EditText
+                            android:id="@+id/et_birthday_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+                            android:ems="10"
+                            android:hint="生日"
+                            android:inputType="textPersonName"/>
+                        <!--</TableRow>-->
+
+                        <!--<TableRow>-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="城市"/>-->
+
+                        <EditText
+                            android:id="@+id/et_city_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+                            android:ems="10"
+                            android:hint="城市"
+                            android:inputType="textPersonName"/>
+                        <!--</TableRow>-->
+                        <!--</TableLayout>-->
+                        <!--</android.support.v7.widget.CardView>-->
+
+                        <!--<android.support.v7.widget.CardView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content">-->
+
+                        <!--<TableLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+
+                        <!--&gt;-->
+
+                        <!--<TableRow-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent">-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="行业"/>-->
+
+                        <EditText
+                            android:id="@+id/et_business_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+                            android:ems="10"
+                            android:hint="行业"
+                            android:inputType="textPersonName"/>
+                        <!--</TableRow>-->
+
+                        <!--<TableRow>-->
+
+                        <!--<TextView-->
+                        <!--android:layout_width="80dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:text="签名"/>-->
+
+                        <EditText
+                            android:id="@+id/et_sigh_comp"
+                            style="@style/EditTextStyle.CoverBg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_bg_selecter"
+                            android:ems="10"
+                            android:hint="签名"
+                            android:inputType="textPersonName"/>
+                        <!--</TableRow>-->
+
+
+                    </TableLayout>
+                </android.support.v7.widget.CardView>
+
+                <Button
+                    android:id="@+id/bt_commit_comp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="完成"/>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/zhuce_pre"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在保存..."
+            android:textColor="@color/accent_blue"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</FrameLayout>

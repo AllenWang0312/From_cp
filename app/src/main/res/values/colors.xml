@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <!--<color name="colorPrimary">@color/nav_bar_center_color</color>-->
+    <!--<color name="colorPrimaryDark">@color/nav_bar_center_color</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <!--<color name="nav_bar_start_color">#7e57c2</color>-->
+    <!--<color name="nav_bar_center_color">#673ab7</color>-->
+    <!--<color name="nav_bar_end_color">#5e35b1</color>-->
+
+    <!--<color name="title1_BG_color"></color>-->
+    <!--<color name="title2_BG_color"></color>-->
+    <!--<color name="title3_BG_color"></color>-->
+    <!--<color name="title4_BG_color"></color>-->
+    <!--<color name="title5_BG_color"></color>-->text_primary
+
+    <color name="text_primarycolor">@color/white</color>
+    <color name="text_secondarycolor">@color/white60</color>
+    <!--<color name="nav_bar_end_color">#5e35b1</color>-->
+    <!--<color name="nav_bar_end_color">#5e35b1</color>-->
+
+    <color name="black">#000000</color>
+    <color name="transparent">#00ffffff</color>
+
+    <color name="actionColor">#FF4081</color>
+
+    <color name="zfb_Color_Primary">#1882d0</color>
+    <color name="zfb_Color_PrimaryDark">#116099</color>
+    <color name="zfb_Color_accent">#1882d0</color>
+    <!--Accent Color Collection-->
+
+    <color name="accent_red">#f44336</color>
+    <color name="accent_pink">#e91e63</color>
+    <color name="accent_purple">#9c27b0</color>
+    <color name="accent_deep_purple">#673ab7</color>
+    <color name="accent_indago">#3f51b5</color>
+    <color name="accent_blue">#2196f3</color>
+    <color name="accent_cyan">#00bcd4</color>
+    <color name="accent_teal">#009688</color>
+    <color name="accent_green">#4caf50</color>
+    <color name="accent_yellow">#ffeb3b</color>
+    <color name="accent_amber">#ffc107</color>
+    <color name="accent_orange">#ff9800</color>
+    <color name="accent_brown">#795548</color>
+    <color name="accent_white">#FFFFFF</color>
+    <color name="accent_grey">#9e9e9e</color>
+    <color name="accent_black">#000000</color>
+
+
+
+    <color name="white">#ffffff</color>
+    <color name="white80">#cccccc</color>
+    <color name="white60">#999999</color>
+    <color name="white40">#666666</color>
+    <color name="white20">#333333</color>
+
+    <color name="accent_white100">#FFFFFF</color>
+    <color name="accent_white80">#f1f1f1</color>
+    <color name="accent_white75">#dddddd</color>
+    <color name="accent_white50">#bbbbbb</color>
+    <color name="accent_white40">#a9a9a9</color>
+
+
+    <color name="accent_black50">#444444</color>
+    <color name="accent_black60">#3b3b3b</color>
+    <color name="accent_black75">#222222</color>
+    <color name="accent_black80">#2c2c2c</color>
+    <color name="accent_black100">#000000</color>
+    <color name="half_transparent">#30000000</color><!-- 半透明 -->
+    <color name="banner_indicater_selected_color">#eeeeee</color>
+    <color name="banner_indicater_unselected_color">#66eeeeee</color>
+    <color name="banner_indicater_bg_color">#33eeeeee</color>
+    <color name="tool_bar_back_login">#EFEFF0</color>
+    <color name="tool_bar_text_login">#303030</color>
+</resources>

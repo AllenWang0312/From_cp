@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+    <android.support.v7.widget.CardView
+
+        style="@style/SameCornerRadiusCardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        >
+        <!--android:foreground="?android:attr/selectableItemBackground"-->
+        <!--style="@style/sameCornerRadiusCardview"-->
+        <!--card_view:contentPaddingLeft="10dp"-->
+        <!--card_view:contentPaddingRight="10dp"-->
+        <!--card_view:cardBackgroundColor="@color/colorPrimary"-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/name_item_expandlv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="备注"
+                android:singleLine="true"
+                android:textSize="@dimen/exp_itme_textSize"
+                tools:text="名称"/>
+            <!--<EditText-->
+            <!--android:id="@+id/et_item_eplv"-->
+            <!--android:focusable="false"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--/>-->
+
+            <TextView
+                android:id="@+id/tips_item_expandlv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="----"
+                android:textSize="@dimen/exp_itme_textSize"/>
+
+            <TextView
+                android:id="@+id/time_item_expandlv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="time"
+                android:textSize="@dimen/exp_itme_textSize"/>
+
+            <TextView
+                android:id="@+id/result_item_expandlv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="text"
+                android:textSize="@dimen/exp_itme_textSize"/>
+
+            <Button
+                android:id="@+id/color_spc_epl_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:focusable="false"
+                android:gravity="center"
+                android:textSize="@dimen/eplv_group_textsize"/>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</FrameLayout>

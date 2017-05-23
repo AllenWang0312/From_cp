@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/db_test_delete"
+        android:showAsAction="never"
+        android:title="删除"/>
+    <item
+        android:id="@+id/db_test_data_setting"
+        android:showAsAction="never"
+        android:title="显示设置"/>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/db_test_fsl"
+            android:showAsAction="never"
+            android:title="光谱"/>
+        <item
+            android:id="@+id/db_test_sc"
+            android:showAsAction="never"
+            android:title="色差"/>
+    </group>
+
+</menu>

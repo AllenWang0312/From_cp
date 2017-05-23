@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        style="@style/SameCornerRadiusCardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/setting_item_recyc_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:src="@drawable/ic_settings_white_24dp"
+                    android:translationZ="8dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_img_item_recyc_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:translationZ="4dp"
+                    />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="设备名称"
+                            android:textSize="@dimen/textSize_name_item_recyc_main"/>
+
+                        <TextView
+                            android:id="@+id/tv_name_item_recyc_main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:textSize="@dimen/textSize_name_item_recyc_main"
+                            tools:text="jagpjp"/>
+                    </TableRow>
+
+                    <TableRow android:layout_marginTop="8dp">
+
+                        <TextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="虚拟地址"
+                            android:textSize="@dimen/textSize_address_item_recyc_main"/>
+
+                        <TextView
+                            android:id="@+id/tv_address_item_recyc_main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:textSize="@dimen/textSize_address_item_recyc_main"
+                            tools:text="address:sery"/>
+                    </TableRow>
+
+                    <TableRow android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="序列号"
+                            android:textSize="@dimen/textSize_address_item_recyc_main"/>
+
+                        <TextView
+                            android:id="@+id/tv_serial_item_recyc_main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:textSize="@dimen/textSize_address_item_recyc_main"
+                            tools:text="serial:sery"/>
+                    </TableRow>
+                </TableLayout>
+
+
+                <Button
+                    android:id="@+id/bt_item_recyc_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:text="开始测试"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

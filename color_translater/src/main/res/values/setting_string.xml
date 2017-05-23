@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources  xmlns:tools="http://schemas.android.com/tools"    tools:ignore="MissingTranslation">
+    <string-array name="angle_set">
+        <item>10°</item>
+        <item>2°</item>
+    </string-array>
+    <string-array name="light_src">
+        <item>A</item>
+        <item>C</item>
+        <item>D50</item>
+        <item>D55</item>
+        <item>D65</item>
+        <item>D75</item>
+        <item>F1</item>
+        <item>F2</item>
+        <item>F3</item>
+        <item>F4</item>
+        <item>F5</item>
+        <item>F6</item>
+        <item>F7</item>
+        <item>F8</item>
+        <item>F9</item>
+        <item>F10</item>
+        <item>F11</item>
+        <item>F12</item>
+        <item>CWF</item>
+        <item>U30</item>
+        <item>DLF</item>
+        <item>NBF</item>
+        <item>TL83</item>
+        <item>TL84</item>
+        <item>U35</item>
+    </string-array>
+    <string-array name="test_mod">
+        <item>SCI</item>
+        <item>SCE</item>
+        <item>SCI_SCE</item>
+    </string-array>
+
+    <string-array name="times_set">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="stand_views_mod">
+        <item>数据</item>
+        <item>光谱+数据</item>
+    </string-array>
+    <string-array name="simple_views_mod">
+        <item>数据</item>
+        <item>光谱+数据</item>
+        <item>色差图+数据</item>
+    </string-array>
+
+</resources>

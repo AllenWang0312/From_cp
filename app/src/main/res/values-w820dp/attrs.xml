@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<attr name="textColor" format="color|reference" />-->
+    <attr name="mainBackground" format="color|reference"/>
+
+    <declare-styleable name="verticaltextview">
+
+        <attr name="text" format="string"/>
+        <attr name="textColor" format="reference|color"/>
+        <attr name="textSize" format="reference|dimension"/>
+        <attr name="direction">
+            <enum name="uptodown" value="0"/>
+            <enum name="downtoup" value="1"/>
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="FSL_table">
+
+        <attr name="notice_show" format="boolean"/>
+        <attr name="t_sci_color" format="reference|color"/>
+        <attr name="s_sci_color" format="reference|color"/>
+        <attr name="t_sce_color" format="reference|color"/>
+        <attr name="s_sce_color" format="reference|color"/>
+        <attr name="unit" format="string"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="TabSwitcher">
+        <attr name="text_color" format="reference|color"/>
+        <attr name="bg_color" format="reference|color"/>
+        <attr name="select_bg_color" format="reference|color"/>
+        <attr name="content_framelayout_id" format="integer"/>
+    </declare-styleable>
+
+</resources>

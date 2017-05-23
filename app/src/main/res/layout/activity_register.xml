@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tool="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+              android:orientation="vertical">
+
+    <include layout="@layout/toolbar"></include>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:text="注册彩谱账号"
+            android:textSize="36sp"/>
+
+
+        <TableLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TableRow
+
+                >
+
+                <EditText
+                    android:id="@+id/et_tel_sign"
+                    style="@style/EditTextStyle.CoverBg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg_selecter"
+                    android:ems="10"
+                    android:hint="请输入手机号码"
+                    android:inputType="textPersonName"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_marginTop="18dp"
+                >
+
+                <EditText
+                    android:id="@+id/et_tx_yzm"
+                    style="@style/EditTextStyle.CoverBg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg_selecter"
+                    android:hint="图片验证码"
+                    android:inputType="textPersonName"/>
+
+                <ImageView
+                    android:id="@+id/iv_auth_code_regist"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    />
+
+            </TableRow>
+
+            <TableRow android:layout_marginTop="18dp">
+
+                <EditText
+                    android:id="@+id/et_yzm_sign"
+                    style="@style/EditTextStyle.CoverBg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg_selecter"
+                    android:hint="短信验证码"
+                    android:inputType="textPersonName"
+                    />
+
+                <Button
+                    android:id="@+id/bt_get_yzm_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_select_login"
+                    android:text="获取验证码"/>
+            </TableRow>
+
+
+            <Button
+                android:id="@+id/bt_login_sign"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/btn_select_login"
+                android:text="立即注册"/>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/tv_notice_rigest"
+                android:layout_marginTop="18dp"
+                tool:text="点击 立即注册 ,即表示您同意并愿意遵守 彩谱 用户协议 和 隐私政策"/>
+        </TableLayout>
+    </LinearLayout>
+
+</LinearLayout>

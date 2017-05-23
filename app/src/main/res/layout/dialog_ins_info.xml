@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:orientation="vertical"
+    >
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <TableRow>
+
+            <TextView
+                style="@style/Title2"
+                android:text="仪器类型:"/>
+
+            <TextView
+                android:id="@+id/tv_type_info"
+                style="@style/Summary2"
+                android:text="分光测色仪"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/Title2"
+                android:text="名称:"/>
+
+            <EditText
+                android:id="@+id/tv_name_info"
+                style="@style/Summary2"
+                android:text="name"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/Title2"
+                android:text="序列号:"/>
+
+            <TextView
+                android:id="@+id/tv_serial_info"
+                style="@style/Summary2"
+                android:text="serial"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/Title2"
+                android:text="蓝牙模块名:"/>
+
+            <TextView
+                android:id="@+id/tv_device_name_info"
+                style="@style/Summary2"
+                android:text="BluetoothDeviceName"/>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/Title2"
+                android:text="蓝牙MAC地址:"/>
+
+            <TextView
+                android:id="@+id/tv_device_address_info"
+                style="@style/Summary2"
+                android:text="BluetoothDeviceAddress"/>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

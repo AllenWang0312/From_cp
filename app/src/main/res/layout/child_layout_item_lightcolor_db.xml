@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="40dp">
+
+    <!--<android.support.v7.widget.CardView-->
+        <!--style="@style/SameCornerRadiusCardview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <TextView  android:textSize="@dimen/exp_itme_textSize"
+                android:id="@+id/tv_name_child_lc_db"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_tips_child_lc_db"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"/>-->
+
+            <TextView
+                android:textSize="@dimen/exp_itme_textSize"
+                android:id="@+id/tv_date_child_lc_db"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView  android:textSize="@dimen/exp_itme_textSize"
+                android:id="@+id/tv_time_child_lc_db"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView  android:textSize="@dimen/exp_itme_textSize"
+                android:id="@+id/tv_result_child_lc_db"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    <!--</android.support.v7.widget.CardView>-->
+
+
+</FrameLayout>

@@ -1,0 +1,347 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+
+    <string name="app_name">color_measurement</string>
+
+    <string-array name="data_config">//20
+        <item>名称</item>
+        <item>备注</item>
+        <item>日期</item>
+        <item>时间</item>
+        <!--<item>结果</item>-->
+        <item>数据(sci)</item>
+        <item>测量模式</item>
+        <item>光照</item>
+        <item>角度</item>
+    </string-array>
+
+    <string-array name="base_data">//20
+        <item>L*a*b</item>
+        <item>L*u*v*</item>
+        <item>L*c*h</item>
+        <item>Hunter Lab</item>
+        <item>XYZ</item>
+        <item>Yxy</item>
+        <item>RGB</item>
+        <!--<item>MSE_HVC</item>-->
+        <item>WI(CIE)</item>
+        <item>WI(Ganz)</item>
+        <item>WI(Hunter)</item>
+        <item>WI(Tauble)</item>
+        <item>WI(Berger)</item>
+        <item>WI(AATCC)</item>
+        <item>WI(ASM E313-73)</item>
+        <item>WI(ASM E313-10)</item>
+        <item>YI(ASM E313-73)</item>
+        <item>YI(ASM E313-10)</item>
+        <item>YI(D 1925)</item>
+        <item>Tint(CIE)</item>
+        <item>Tint(E313)</item>
+        <item>Tint(Ganz)</item>
+        <!--<item>同色异谱Milm</item>-->
+    </string-array>
+    <string-array name="Dev_data">
+        <item>DE*ab</item>
+        <item>DE*ch</item>
+        <item>Dcmc I:c</item>
+        <item>DE*00</item>
+        <item>DE*94</item>
+        <item>DEab(HUnter)</item>
+        <item>沾色牢度</item>
+        <item>变色牢度</item>
+        <item>555色调分类</item>
+        <item>色强度</item>
+    </string-array>
+
+    <string-array name="db_base_data">//20
+        <item>名称</item>
+        <item>备注</item>
+        <item>日期</item>
+        <item>时间</item>
+        <!--<item>结果</item>-->
+        <item>数据(sci)</item>
+        <item>测量模式</item>
+        <item>光照</item>
+        <item>角度</item>
+
+        <item>L*a*b</item>
+        <item>L*u*v*</item>
+        <item>L*c*h</item>
+        <item>Hunter Lab</item>
+        <item>XYZ</item>
+        <item>Yxy</item>
+        <item>RGB</item>
+        <!--<item>MSE_HVC</item>-->
+        <item>WI(CIE)</item>
+        <item>WI(Ganz)</item>
+        <item>WI(Hunter)</item>
+        <item>WI(Tauble)</item>
+        <item>WI(Berger)</item>
+        <item>WI(AATCC)</item>
+        <item>WI(ASM E313-73)</item>
+        <item>WI(ASM E313-10)</item>
+
+        <item>YI(ASM E313-73)</item>
+        <item>YI(ASM E313-10)</item>
+        <item>YI(D 1925)</item>
+
+        <item>Tint(CIE)</item>
+        <item>Tint(E313)</item>
+        <item>Tint(Ganz)</item>
+
+    </string-array>
+    <string-array name="comparison_data">//20
+        <!--<item>名称</item>-->
+        <!--<item>备注</item>-->
+        <!--<item>日期</item>-->
+        <!--<item>时间</item>-->
+        <!--&lt;!&ndash;<item>结果</item>&ndash;&gt;-->
+        <!--<item>数据(sci)</item>-->
+        <!--<item>测量模式</item>-->
+        <!--<item>光照</item>-->
+        <!--<item>角度</item>-->
+
+        <item>L*a*b</item>
+        <item>L*u*v*</item>
+        <item>L*c*h</item>
+        <item>Hunter Lab</item>
+        <item>XYZ</item>
+        <item>Yxy</item>
+        <item>RGB</item>
+        <!--<item>MSE_HVC</item>-->
+
+        <item>WI(CIE)</item>
+        <item>WI(Ganz)</item>
+        <item>WI(Hunter)</item>
+        <item>WI(Tauble)</item>
+        <item>WI(Berger)</item>
+        <item>WI(AATCC)</item>
+        <item>WI(ASM E313-73)</item>
+        <item>WI(ASM E313-10)</item>
+
+        <item>YI(ASM E313-73)</item>
+        <item>YI(ASM E313-10)</item>
+        <item>YI(D 1925)</item>
+
+        <item>Tint(CIE)</item>
+        <item>Tint(E313)</item>
+        <item>Tint(Ganz)</item>
+
+        <item>DE*ab</item>
+        <item>DE*ch</item>
+        <item>Dcmc I:c</item>
+        <item>DE*00</item>
+        <item>DE*94</item>
+        <item>DEab(HUnter)</item>
+        <item>沾色牢度</item>
+        <item>变色牢度</item>
+        <item>555色调分类</item>
+        <item>色强度</item>
+        <!--<item>同色异谱Milm</item>-->
+    </string-array>
+
+
+    <string-array name="name">
+        <item>名称</item>
+    </string-array>
+    <string-array name="tips">
+        <item>备注</item>
+    </string-array>
+    <string-array name="date">
+        <item>日期</item>
+    </string-array>
+    <string-array name="time">
+        <item>时间</item>
+    </string-array>
+    <string-array name="result">
+        <item>结果</item>
+    </string-array>
+    <string-array name="date_sci">
+        <item>400nm</item>
+        <item>410nm</item>
+        <item>420nm</item>
+        <item>430nm</item>
+        <item>440nm</item>
+        <item>450nm</item>
+        <item>460nm</item>
+        <item>470nm</item>
+        <item>480nm</item>
+        <item>490nm</item>
+        <item>500nm</item>
+        <item>510nm</item>
+        <item>520nm</item>
+        <item>530nm</item>
+        <item>540nm</item>
+        <item>550nm</item>
+        <item>560nm</item>
+        <item>570nm</item>
+        <item>580nm</item>
+        <item>590nm</item>
+        <item>600nm</item>
+        <item>610nm</item>
+        <item>620nm</item>
+        <item>630nm</item>
+        <item>640nm</item>
+        <item>650nm</item>
+        <item>660nm</item>
+        <item>670nm</item>
+        <item>680nm</item>
+        <item>690nm</item>
+        <item>700nm</item>
+    </string-array>
+    <string-array name="test_mod_title">
+        <item>测量模式</item>
+    </string-array>
+    <string-array name="light">
+        <item>光照</item>
+    </string-array>
+    <string-array name="angle">
+        <item>角度</item>
+    </string-array>
+
+    <string-array name="XYZ">
+        <item>X</item>
+        <item>Y</item>
+        <item>Z</item>
+    </string-array>
+    <string-array name="Lab">
+        <item>L*</item>
+        <item>a*</item>
+        <item>b*</item>
+    </string-array>
+    <string-array name="RGB">
+        <item>R</item>
+        <item>G</item>
+        <item>B</item>
+    </string-array>
+
+    <string-array name="LCh">
+        <item>L*</item>
+        <item>a*</item>
+        <item>b*</item>
+        <item>c*</item>
+        <item>h</item>
+    </string-array>
+    <string-array name="Luv">
+        <item>L*</item>
+        <item>u*</item>
+        <item>v*</item>
+    </string-array>
+
+    <string-array name="Yxy">
+        <item>Y</item>
+        <item>x</item>
+        <item>y</item>
+    </string-array>
+    <string-array name="HunterLab">
+        <item>L(Hunter)</item>
+        <item>a(Hunter)</item>
+        <item>b(Hunter)</item>
+    </string-array>
+
+    <string-array name="WI_CIE">
+        <item>WI(CIE)</item>
+    </string-array>
+    <string-array name="WI_Ganz">
+        <item>WI(Ganz)</item>
+    </string-array>
+    <string-array name="WI_Hunter">
+        <item>WI(Hunter)</item>
+    </string-array>
+    <string-array name="WI_Tauble">
+        <item>WI(Tauble)</item>
+    </string-array>
+    <string-array name="WI_Berger">
+        <item>WI(Berger)</item>
+    </string-array>
+    <string-array name="WI_AATCC">
+        <item>WI(AATCC)</item>
+    </string-array>
+    <string-array name="WI_ASM_E313_73">
+        <item>WI(ASM E313-73)</item>
+    </string-array>
+    <string-array name="WI_ASM_E313_10">
+        <item>WI(ASM E313-10)</item>
+    </string-array>
+    <string-array name="YI_ASM_E313_73">
+        <item>YI(ASM E313-73)</item>
+
+    </string-array>
+    <string-array name="YI_ASM_E313_10">
+        <item>YI(ASM E313-10)</item>
+    </string-array>
+    <string-array name="YI_D_1925">
+        <item>YI(D 1925)</item>
+    </string-array>
+    <string-array name="Tint_CIE">
+        <item>Tint(CIE)</item>
+    </string-array>
+    <string-array name="Tint_E313">
+        <item>Tint(E313)</item>
+    </string-array>
+    <string-array name="Tint_Ganz">
+        <item>Tint(Ganz)</item>
+    </string-array>
+    //未使用
+    <string-array name="MSE_HVC">
+        <item>MSE_H</item>
+        <item>MSE_V</item>
+        <item>MSE_C</item>
+    </string-array>
+    <string-array name="DE_ab">
+        <item>DE*ab</item>
+    </string-array>
+    <string-array name="DE_ch">
+        <item>DE*ch</item>
+    </string-array>
+    <string-array name="Dcmc_I_c">
+        <item>Dcmc I:c</item>
+    </string-array>
+    <string-array name="DE_00">
+        <item>DE*00</item>
+    </string-array>
+    <string-array name="DE_94">
+        <item>DE*94</item>
+    </string-array>
+    <string-array name="DEab_HUnter">
+        <item>DEab(HUnter)</item>
+    </string-array>
+    <string-array name="zsld">
+        <item>沾色牢度</item>
+    </string-array>
+    <string-array name="bsld">
+        <item>变色牢度</item>
+    </string-array>
+    <string-array name="sdfl">
+        <item>555色调分类</item>
+    </string-array>
+    <string-array name="sqd">
+        <item>色强度</item>
+    </string-array>
+    <string-array name="tsyp">
+        <item>同色异谱Milm</item>
+    </string-array>
+
+    <string-array name="d_LAB">
+        <item>dL*(d_LAB)</item>
+        <item>da*(d_LAB)</item>
+        <item>db*(d_LAB)</item>
+        <item>dE*ab(d_LAB)</item>
+    </string-array>
+
+    <string-array name="sechagongshi">
+        <item>DE*ab</item>
+        <item>DE*ch</item>
+        <item>Dcmc I:c</item>
+        <item>DE*00</item>
+        <item>DE*94</item>
+        <item>DEab(HUnter)</item>
+        <item>沾色牢度</item>
+        <item>变色牢度</item>
+        <item>555色调分类</item>
+        <item>色强度</item>
+        <!--<item>同色异谱Milm</item>-->
+    </string-array>
+</resources>

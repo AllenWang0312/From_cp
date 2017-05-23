@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+    <!--android:id="@+id/swipe_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="20dp"/>-->
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+
+        >
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_v4"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<ProgressBar-->
+                <!--android:id="@+id/pb_v4_addinstrument"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_weight="1"-->
+                <!--android:visibility="gone"-->
+                <!--/>-->
+
+            <!--<ListView-->
+                <!--android:id="@+id/lv4_add_dialog"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1">-->
+            <!--</ListView>-->
+
+        <!--</LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/ll_v2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ProgressBar  android:visibility="gone"
+                android:id="@+id/pb_v2_addinstrument"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                />
+
+            <ListView
+                android:id="@+id/lv2_add_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_add"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ExpandableListView
+                android:id="@+id/exp_add_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+            </ExpandableListView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+    >
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/fab_add_left"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_margin="8dp"-->
+            <!--app:srcCompat="@drawable/ic_bluetooth_audio_white_24dp"-->
+            <!--/>-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_addv2_left"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/ic_bluetooth_audio_white_24dp"
+            />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_right"
+            android:visibility="gone"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/accent_white50"></View>
+</LinearLayout>
