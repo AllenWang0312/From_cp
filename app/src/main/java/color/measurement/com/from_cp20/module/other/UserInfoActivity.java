@@ -265,7 +265,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    mTextNumber.setText(mTel.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2") + "   ");
+//                    mTextNumber.setText(mTel.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2") + "   ");
                     mTextBirth.setText(mBirth);
                     mTextCity.setText(mAddress);
                     mTextJob.setText(mBusiness);

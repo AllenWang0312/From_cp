@@ -139,6 +139,7 @@ public class LustreGroupTestFrag extends GroupDisplayFragment implements Observe
 //                if (titles.size() > 0) {
                     if(adapter==null){
                         adapter = new TestDataAdapter(mContext, sp);
+                        adapter.setMaxLength(10);
 //                adapter = new TestDataAdapter(mContext, sp, titles, group.getTests(), group.getSelectIndex());
 
                         adapter.setItemClickListener(new OnItemClickListener() {

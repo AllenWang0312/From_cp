@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import color.measurement.com.from_cp20.R;
-import color.measurement.com.from_cp20.module.been.Instrument.Ins;
+import color.measurement.com.from_cp20.module.been.Ins;
 import color.measurement.com.from_cp20.manager.ins.Instrument;
 
 /**
@@ -45,8 +45,8 @@ public class InsInfoDialog extends DialogFragment {
         builder.setTitle("仪器信息");
         View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_ins_info, null);
         unbinder = ButterKnife.bind(this, v);
-        mTvTypeInfo.setText(Instrument.getTypeStringWithInstrumentName(mIns.getName(),mContext));
-        mTvNameInfo.setText(mIns.getName());
+        mTvTypeInfo.setText(Instrument.getTypeStringWithInstrumentName(mIns.getBleName(),mContext));
+        mTvNameInfo.setText(mIns.getBleName());
 //        mTvSerialInfo.setText();
         mTvDeviceNameInfo.setText(mIns.getBleName());
         mTvDeviceAddressInfo.setText(mIns.getAddress());

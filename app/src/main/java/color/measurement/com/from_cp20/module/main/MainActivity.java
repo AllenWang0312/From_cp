@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -34,7 +35,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -77,7 +77,7 @@ import color.measurement.com.from_cp20.manager.ins.Instrument;
 import color.measurement.com.from_cp20.manager.sp.SPConsts;
 import color.measurement.com.from_cp20.module.App;
 import color.measurement.com.from_cp20.module.been.AdvInfo;
-import color.measurement.com.from_cp20.module.been.Instrument.Ins;
+import color.measurement.com.from_cp20.module.been.Ins;
 import color.measurement.com.from_cp20.module.been.User;
 import color.measurement.com.from_cp20.module.database.lightcolor.LightColorDBActivity;
 import color.measurement.com.from_cp20.module.measure.lightcolor.v2.LightColor2Activity;
@@ -93,6 +93,7 @@ import color.measurement.com.from_cp20.util.utils.T;
 import color.measurement.com.from_cp20.util.utils.TimeUtils;
 import color.measurement.com.from_cp20.widget.CircleImageView;
 import color.measurement.com.openfilehelper.FileAndPath;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static color.measurement.com.from_cp20.manager.Ble_4.BleHelper.removeBond;
@@ -124,144 +125,24 @@ public class MainActivity extends ProgressDialogActivity
 //   ImageView portrait;
 //    TextView name, sign;
     @BindView(R.id.circ_iv_portrait) CircleImageView portrait;
+    @BindView(R.id.iv_add) ImageView add_devices;
     @BindView(R.id.user_name_main) TextView name;
     //    View recycHeadView;
 //   @BindView(R.id.banner) Banner mBanner;
     BlueToothManagerForBLE mManagerForBLE;
     MainMiniRecycAdapter adapter;
-
-    BaseQuickAdapter.OnRecyclerViewItemClickListener onItemClicklistener = new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
-        @Override
-        public void onItemClick(View view, int i) {
-            checkPermissions();
-            Ins info = mProductDevicess.get(i);
-            BluetoothDevice d = info.getDevice(mManagerForBLE.mBluetoothAdapter);
-            if (info.getDevice_version() == 4) {
-                mManagerForBLE.v4manager.connectToDevice(d);
-                switch (getTypeWithInstrumentName(info.getBleName(), mContext)) {
-                    case TYPE_LIGHTCOLOR:
-                        App.logged_user.setConnectIns(info);
-                        Intent intent = new Intent(MainActivity.this, LightColor4Activity.class);
-                        intent.putExtra("need_response", true);
-                        intent.putExtra("bleName", info.getName());
-                        intent.putExtra("bleAddress", info.getAddress());
-                        startActivity(intent);
-                        break;
-                    default:
-                        break;
-                }
-            } else if (info.getDevice_version() == 2) {//00001101-0000-1000-8000-00805F9B34FB
-                new ConnectTask().execute(i);
-            }
-        }
-    };
-    BaseQuickAdapter.OnRecyclerViewItemLongClickListener ItemLongClickListener = new BaseQuickAdapter.OnRecyclerViewItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(View view, int i) {
-            Ins ins = mProductDevicess.get(i);
-            BluetoothDevice device = ins.getDevice(mManagerForBLE.mBluetoothAdapter);
-            try {
-                removeBond(device.getClass(), device);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-    };
-    BaseQuickAdapter.OnRecyclerViewItemLongClickListener mOnItemLongClickListener = new BaseQuickAdapter.OnRecyclerViewItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(View view, final int i) {
-            new AlertDialog.Builder(mContext).setTitle("操作选项").setItems(new String[]{"查看数据", "删除"}, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0:
-                            LightColorDBActivity.startWithIntent(mContext, mProductDevicess.get(i).getDataTableName());
-                            break;
-                        case 1:
-                            new AlertDialog.Builder(mContext).setTitle("确认删除").setMessage("点击确认,删除仪器同时删除本地数据")
-                                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String table_name = mProductDevicess.get(i).getDataTableName();
-//                                            String address = mProductDevicess.get(i).getAddress();
-//                                            Cursor c = db.rawQuery("select * from " + DBConsts.INS_TAB_NAME + " where userName = ? and address = ?", new String[]{App.logged_user.getName(), address});
-//                                            if (c.getCount() == 1) {
-//                                                c.moveToFirst();
-//                                                String table_name = c.getString(c.getColumnIndex("dataTableName"));
-                                            db.execSQL("drop table " + table_name);
-//                                db.execSQL("delete from " + table_name);
-                                            db.delete(DBConsts.INS_TAB_NAME, "dataTableName = ?", new String[]{table_name});
-//                                            }
-//                                          File f = new File(mProductDevicess.get(position).getCachePath());
-//                                          if (f.exists()) {
-//                                              f.delete();
-//                                              T.showSuccess(mContext, "删除成功");
-//                                          } else {
-//                                              T.showWarning(mContext, "文件不存在");
-//                                          }
-                                            initRecycleView();
-                                        }
-                                    }).setNegativeButton("取消", null).create().show();
-                            break;
-
-                    }
-                }
-            }).create().show();
-            return true;
-        }
-    };
-
-    class ConnectTask extends AsyncTask<Integer, Integer, Integer> {
-        Ins info;
-        boolean b;
-
-        @Override
-        protected void onPreExecute() {
-            showProgressDialog("请稍后", "正在连接");
-
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... params) {
-            mManagerForBLE.openBlueToothIfNeed();
-            info = mProductDevicess.get(params[0]);
-//            BluetoothDevice device = info.getDevice(mManagerForBLE.mBluetoothAdapter);
-//            boundDeviceIfNeed(device);
-            mManagerForBLE.v2manager.disconnect();
-            b = mManagerForBLE.v2manager.connectTo_2_Device(info.getAddress());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            dismissProgressDialog();
-            if (b) {
-                Intent i = null;
-                if (info.getType() == 0) {
-                    i = new Intent(MainActivity.this, LightColor2Activity.class);
-                } else if (info.getType() == 2) {
-                    i = new Intent(MainActivity.this, LustreActivity.class);
-                }
-                i.putExtra("bleName", info.getName());
-                i.putExtra("bleAddress", info.getAddress());
-                startActivity(i);
-            } else {
-                mManagerForBLE.v2manager.disconnect();
-                T.showWarning(mContext, "连接失败,请稍后重试");
-            }
-            super.onPostExecute(integer);
-        }
-    }
-
-
     //    @BindView(R.id.srl_main) SwipeRefreshLayout mSrlMain;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 2) {
+            if (msg.what == 0) {
+                adapter = new MainMiniRecycAdapter(R.layout.item_mini_instrument_recyc_main, mProductDevicess);
+                adapter.setEmptyView(LayoutInflater.from(mContext).inflate(R.layout.empty_view, null));
+                adapter.setOnRecyclerViewItemClickListener(onItemClicklistener);
+//        adapter.setOnRecyclerViewItemLongClickListener(ItemLongClickListener);
+                mRecycMain.setAdapter(adapter);
+            } else if (msg.what == 2) {
                 mBanner.setImages(imgUrls);
                 mBanner.setOnBannerListener(new OnBannerListener() {
                     @Override
@@ -272,26 +153,44 @@ public class MainActivity extends ProgressDialogActivity
                     }
                 });
                 mBanner.start();
+                if (sp.getBoolean(SPConsts.LOGIN_GUIDE, true)) {//默认true
+                    new MaterialShowcaseView.Builder(MainActivity.this)
+                            .setTarget(portrait)
+                            .setDismissTextColor(Color.GREEN)
+                            .setDismissText("我知道了")
+                            .setContentText("点击头像登录账户")
+                            .setDelay(1000) // optional but starting animations immediately in onCreate can make them choppy
+                            .singleUse("login_guide") // provide a unique ID used to ensure it is only shown once
+                            .show();
+                    sp.edit().putBoolean(SPConsts.LOGIN_GUIDE, false).commit();
+                } else {
+                    mAppBarLayout.setExpanded(false);
+                }
             }
         }
     };
 
-    ArrayList<Ins> mProductDevicess;
+    ArrayList<Ins> mProductDevicess = new ArrayList<>();
     DBHelper dbHelper;
     SQLiteDatabase db;
-
+    SharedPreferences sp;
     ArrayList<URL> imgUrls;
     ArrayList<String> titles;
     ArrayList<String> webUrls;
+    MySqlHelper instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPermissions();
         mContext = this;
+        instance = MySqlHelper.getInstance(mContext);
+
         dbHelper = new DBHelper(mContext, DBConsts.DATE_BASE, null, 1);
         L.e("dbHelper==" + dbHelper);
         db = dbHelper.getWritableDatabase();
+        sp = getSharedPreferences(SPConsts.PREFERENCE_APP_CONFIG, MODE_PRIVATE);
+
         setContentView(R.layout.activity_main);
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         ButterKnife.bind(this);
@@ -308,10 +207,8 @@ public class MainActivity extends ProgressDialogActivity
             Cursor cursor
         }*/
 //        App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
-        mAppBarLayout.setExpanded(false);
         mContext = this;
         initUser();
-        initData();
         initViews();
 
     }
@@ -333,28 +230,20 @@ public class MainActivity extends ProgressDialogActivity
 
     private void initUser() {
         SharedPreferences sp = getSharedPreferences(SPConsts.PREFERENCE_APP_CONFIG, MODE_PRIVATE);
-        String anme = sp.getString("lastName", "未登录");
-        if (anme.equals("未登录")) {
+        int id = sp.getInt("last_userId", -1);
+
+        if (id == -1) {
             App.logged_user = new User();
-            App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
         } else {
-            Cursor cursor = db.query(DBConsts.USER_TAB_NAME, null, " name = ? ", new String[]{anme}, null, null, null);
+            Cursor cursor = db.query(DBConsts.USER_TAB_NAME, null, " service_id = ? ", new String[]{id + ""}, null, null, null);
             if (cursor.moveToFirst()) {
+                App.logged_user = new User(cursor);
                 App.logged_user.setIs_login(true);
-                App.logged_user.setName(cursor.getString(cursor.getColumnIndex("name")));
-                App.logged_user.setPortrait_url(cursor.getString(cursor.getColumnIndex("portrait")));
                 name.setText(App.logged_user.getName());
                 ImageLoaderProxy.getInstance().displayImage(App.logged_user.getPortrait_url(), portrait, R.mipmap.caipu);
             }
         }
 
-    }
-
-    private void initData() {
-        mProductDevicess = DBHelper.initProductDataFromDataBase(db, App.logged_user.getName(), mContext);
-//        mProductDevicess = DataTrans.initProductDataFromFiles(
-//                FileAndPath.APP_INS_CACHE_PATH + "/" + App.logged_user.getName(), mContext
-//        );
     }
 
     void initViews() {
@@ -370,6 +259,7 @@ public class MainActivity extends ProgressDialogActivity
             name.setText(App.logged_user.getName());
         }
         portrait.setOnClickListener(this);
+        add_devices.setOnClickListener(this);
 
         Bitmap bitmap = new BitmapFactory().decodeResource(getResources(), R.mipmap.ic_launcher);
         RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
@@ -382,11 +272,10 @@ public class MainActivity extends ProgressDialogActivity
 //                ImageLoaderProxy.getInstance().displayImage(path.toString(),imageView,R.mipmap.adv_defult);
                 Glide.with(MainActivity.this)
                         .load(path)
-                        .placeholder(R.mipmap.ic_launcher)
-                        .crossFade()
-                        .override(400, 200)
+//                        .placeholder(R.mipmap.adv_defult)
+//                        .crossFade()
+//                        .override(600, 250)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.mipmap.ic_launcher)
                         .into(imageView);
             }
         });
@@ -404,42 +293,24 @@ public class MainActivity extends ProgressDialogActivity
 
 
     private void initRecycleView() {
-        initData();
-        adapter = new MainMiniRecycAdapter(R.layout.item_mini_instrument_recyc_main, mProductDevicess);
-        adapter.setEmptyView(LayoutInflater.from(mContext).inflate(R.layout.empty_view, null));
-        adapter.setOnRecyclerViewItemClickListener(onItemClicklistener);
-//        adapter.setOnRecyclerViewItemLongClickListener(ItemLongClickListener);
-        mRecycMain.setAdapter(adapter);
-    }
-
-    private void initBannerData() {
-        imgUrls = new ArrayList<>();
-        titles = new ArrayList<>();
-        webUrls = new ArrayList<>();
-        try {
-            imgUrls.add(new URL("http://www.hzcaipu.com/upload/products/1481104707.jpg"));
-            imgUrls.add(new URL("http://www.hzcaipu.com/upload/products/1464443081.jpg"));
-            imgUrls.add(new URL("http://www.hzcaipu.com/upload/products/1464443171.jpg"));
-            imgUrls.add(new URL("http://www.hzcaipu.com/upload/products/1466579279.jpg"));
-//            titles.add("");
-            webUrls.add("http://www.hzcaipu.com/list/list125-1.html");
-            webUrls.add("http://www.hzcaipu.com/list/show101.html");
-            webUrls.add("http://hzcaipu.com/list/list106-1.html");
-            webUrls.add("http://www.hzcaipu.com/list/show118.html");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        mBanner.setImages(imgUrls);
-        mBanner.setOnBannerListener(new OnBannerListener() {
+//        mProductDevicess = DBHelper.initProductDataFromDataBase(db, App.logged_user.getService_id());
+        mProductDevicess = new ArrayList<>();
+        new MySqlHelper.MySQLAsyTask(new Runnable() {
             @Override
-            public void OnBannerClick(int position) {
-                Intent i = new Intent(MainActivity.this, WebViewActivity.class);
-                i.putExtra("url", webUrls.get(position));
-                startActivity(i);
+            public void run() {
+                try {
+                    ResultSet set = instance.mStatement.executeQuery("select * from " + MySqlConsts.ins_table + " where userId = '" + App.logged_user.getService_id() + "'");
+                    if (set.first()) {
+                        do {
+                            mProductDevicess.add(new Ins(set));
+                        } while (set.next());
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(0);
             }
-        });
-        mBanner.start();
-
+        }, false).execute();
     }
 
     private void initBannerDataFromMySql() {
@@ -485,91 +356,6 @@ public class MainActivity extends ProgressDialogActivity
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (!navigationView.isShown()) {
-//            MainActivity.this.finish();
-//        } else {
-//            mDrawerLayout.closeDrawers();
-//        }
-//    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        final MenuItem item = menu.findItem(R.id.action_seach);
-//        mSearchView = (SearchView) MenuItemCompat.getActionView(item);
-//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                doSearch();
-//                return true;
-//            }
-//        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-//            case R.id.action_connect:
-//                mManagerForBLE.showFindDriveDialog(MainActivity.this);
-//                break;
-            case R.id.action_add:
-                if (mManagerForBLE.mBluetoothAdapter.isEnabled()) {
-                    showAddDialog();
-                } else {
-                    mManagerForBLE.openBlueToothIfNeed();
-                }
-
-
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.nav_notification:
-//                break;
-//            case R.id.nav_db:
-//                break;
-//            case R.id.nav_tools:
-//                startActivity(new Intent(this, ToolsActivity.class));
-//                break;
-//            case R.id.nav_settings:
-//                startActivity(new Intent(this, SettingActivity.class));
-//                break;
-//            case R.id.nav_send:
-//                new MessageBoardDialog().show(getFragmentManager(), "message_board");
-//                break;
-//            case R.id.nav_aboutus:
-//                startActivity(new Intent(this, AboutActivity.class));
-//                break;
-//            case R.id.nav_share:
-//                showShare();
-//                break;
-////            case R.id.ib_main:
-////                isGridLayout = !isGridLayout;
-////                initRecycleView();
-////                break;
-//            default:
-//                break;
-//        }
-////        mDrawerLayout.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -579,6 +365,13 @@ public class MainActivity extends ProgressDialogActivity
                     startActivityForResult(intentUser, 10086);
                 } else {
                     startActivityForResult(new Intent(this, LoginActivity.class), 10086);
+                }
+                break;
+            case R.id.iv_add:
+                if (mManagerForBLE.mBluetoothAdapter.isEnabled()) {
+                    showAddDialog();
+                } else {
+                    mManagerForBLE.openBlueToothIfNeed();
                 }
                 break;
         }
@@ -636,8 +429,25 @@ public class MainActivity extends ProgressDialogActivity
 //        mManagerForBLE.checkPermission(this);
 //        mManagerForBLE.openBlueToothIfNeed();
         mBanner.startAutoPlay();
+        if (App.logged_user.is_login()) {
+            mManagerForBLE.openBlueToothIfNeed();
+
+            if (sp.getBoolean(SPConsts.ADD_DEV_GUIDE, true)) {
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(add_devices)
+                        .setDismissTextColor(Color.GREEN)
+                        .setDismissText("我知道了")
+                        .setContentText("点击这里添加一个设备")
+                        .setDelay(1000) // optional but starting animations immediately in onCreate can make them choppy
+                        .singleUse("add_device_gride") // provide a unique ID used to ensure it is only shown once
+                        .show();
+                sp.edit().putBoolean(SPConsts.ADD_DEV_GUIDE, false);
+            }
+        }
         super.onResume();
     }
+
+    MenuItem tiem;
 
     @Override
     protected void onPause() {
@@ -716,49 +526,76 @@ public class MainActivity extends ProgressDialogActivity
                     new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Ins ins = mAddInstrumentDialog.getV2Device(position);
-                            BluetoothDevice device = ins.getDevice(mManagerForBLE.mBluetoothAdapter);
-                            BleHelper.boundDeviceIfNeed(device);
-                            if (ins.getType() <= 3) {
-                                if (db.rawQuery("select * from " + DBConsts.INS_TAB_NAME + " where userName = ? and address = ?", new String[]{App.logged_user.getName(), ins.getAddress()}).getCount() > 0) {
 
-                                } else {
-                                    String encoding_string = EncodeUtils.urlEncode(
-                                            TimeUtils.getTimeWithFormat(TimeUtils.NO_BLANK)
-                                    );
-                                    int i = getTypeWithInstrumentName(ins.getBleName(), mContext);
-                                    String tab_name = App.logged_user.getService_id() + Instrument.getTypeStringWithType(i) + encoding_string;
-                                    ins.setDataTableName(tab_name);
-                                    db.insert(DBConsts.INS_TAB_NAME, null, ins.getContentValue());
-
-                                    switch (i) {
-                                        case 0:
-                                            db.execSQL(DBConsts.createLightColorDataTableIfNotExist(tab_name));
-                                            break;
-                                        case 1:
-                                            break;
-                                        case 2:
-                                            db.execSQL(DBConsts.createLustreDataTableIfNotExist(tab_name));
-                                            break;
-                                        case 3:
-                                            break;
+                            if (App.logged_user.is_login()) {
+                                final Ins ins = mAddInstrumentDialog.getV2Device(position);
+                                BluetoothDevice device = ins.getDevice(mManagerForBLE.mBluetoothAdapter);
+                                BleHelper.boundDeviceIfNeed(device);
+                                if (ins.getType() <= 3) {
+                                    if (InsideProducts(mProductDevicess, ins)) {
+                                        T.showWarning(mContext, "仪器已添加");
+                                    } else {
+                                        String encoding_string = EncodeUtils.urlEncode(
+                                                TimeUtils.getTimeWithFormat(TimeUtils.NO_BLANK)
+                                        );
+                                        int i = getTypeWithInstrumentName(ins.getBleName(), mContext);
+                                        String tab_name = "user_id" + App.logged_user.getService_id() + Instrument.getTypeStringWithType(i) + encoding_string;
+                                        ins.setDataTableName(tab_name);
+                                        ins.setUserId(App.logged_user.getService_id());
+                                        switch (i) {
+                                            case 0:
+                                                db.execSQL(DBConsts.createLightColorDataTableIfNotExist(tab_name));
+                                                break;
+                                            case 1:
+                                                break;
+                                            case 2:
+                                                db.execSQL(DBConsts.createLustreDataTableIfNotExist(tab_name));
+                                                break;
+                                            case 3:
+                                                break;
+                                        }
                                     }
-                                }
+                                    new MySqlHelper.MySQLAsyTask(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                ResultSet set = instance.mStatement.executeQuery("select * from " + MySqlConsts.ins_table + " where userId = '" + App.logged_user.getService_id() + "' and address = '" + ins.getAddress() + "'");
+                                                if (set.first()) {
+                                                    Log.i("仪器" + ins.getAddress(), "数据库中已存在");
+                                                } else {
+                                                    MySqlHelper.insertDataToMySql(instance.mStatement, MySqlConsts.ins_table, ins, mContext);
+                                                }
+                                            } catch (SQLException e) {
+                                                e.printStackTrace();
+                                            }
 
+                                        }
+                                    }, false).execute();
 //                                File f = new File(ins.getCachePath());
 //                                if (!f.exists()) {
 //                                    saveProductDataToFile(ins.getDevice(mManagerForBLE.mBluetoothAdapter), ins.getCachePath());
 //                                } else {
 //                                }
-                                initRecycleView();
+                                    initRecycleView();
+                                } else {
+                                    T.showWarning(mContext, "无法识别该设备");
+                                }
                             } else {
-                                T.showWarning(mContext, "无法识别该设备");
+                                T.show(mContext, "请先登录一个账号");
                             }
-
                         }
                     });
         }
         mAddInstrumentDialog.show(getFragmentManager(), "add_instrument_dialog");
+    }
+
+    private boolean InsideProducts(ArrayList<Ins> productDevicess, Ins ins) {
+        for (Ins i : productDevicess) {
+            if (i.getAddress().equals(ins.getAddress())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     boolean scanable = false;
@@ -769,9 +606,7 @@ public class MainActivity extends ProgressDialogActivity
             if (resultCode == 20 || resultCode == 21 || resultCode == 22) {
 
             } else if (resultCode == 19) {
-                App.logged_user.setName("未登录");
-                App.logged_user.setIs_login(false);
-                App.logged_user.setPortrait_url("");
+                App.logged_user=new User();
             }
             initRecycleView();
             ImageLoaderProxy.getInstance().displayImage(App.logged_user.getPortrait_url(), portrait, R.mipmap.caipu);
@@ -788,6 +623,87 @@ public class MainActivity extends ProgressDialogActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    BaseQuickAdapter.OnRecyclerViewItemClickListener onItemClicklistener = new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+        @Override
+        public void onItemClick(View view, int i) {
+            checkPermissions();
+            Ins info = mProductDevicess.get(i);
+            if (info.getDevice_version() == 4) {
+                BluetoothDevice d = info.getDevice(mManagerForBLE.mBluetoothAdapter);
+                mManagerForBLE.v4manager.connectToDevice(d);
+                switch (getTypeWithInstrumentName(info.getBleName(), mContext)) {
+                    case TYPE_LIGHTCOLOR:
+                        App.logged_user.setConnectIns(info);
+                        Intent intent = new Intent(MainActivity.this, LightColor4Activity.class);
+                        intent.putExtra("need_response", true);
+                        intent.putExtra("bleName", info.getBleName());
+                        intent.putExtra("bleAddress", info.getAddress());
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            } else if (info.getDevice_version() == 2) {//00001101-0000-1000-8000-00805F9B34FB
+                new ConnectTask().execute(i);
+            }
+        }
+    };
+    BaseQuickAdapter.OnRecyclerViewItemLongClickListener ItemLongClickListener = new BaseQuickAdapter.OnRecyclerViewItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(View view, int i) {
+            Ins ins = mProductDevicess.get(i);
+            BluetoothDevice device = ins.getDevice(mManagerForBLE.mBluetoothAdapter);
+            try {
+                removeBond(device.getClass(), device);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+    };
+    BaseQuickAdapter.OnRecyclerViewItemLongClickListener mOnItemLongClickListener = new BaseQuickAdapter.OnRecyclerViewItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(View view, final int i) {
+            new AlertDialog.Builder(mContext).setTitle("操作选项").setItems(new String[]{"查看数据", "删除"}, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0:
+                            LightColorDBActivity.startWithIntent(mContext, mProductDevicess.get(i).getDataTableName());
+                            break;
+                        case 1:
+                            new AlertDialog.Builder(mContext).setTitle("确认删除").setMessage("点击确认,删除仪器同时删除本地数据")
+                                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String table_name = mProductDevicess.get(i).getDataTableName();
+//                                            String address = mProductDevicess.get(i).getAddress();
+//                                            Cursor c = db.rawQuery("select * from " + DBConsts.INS_TAB_NAME + " where userName = ? and address = ?", new String[]{App.logged_user.getName(), address});
+//                                            if (c.getCount() == 1) {
+//                                                c.moveToFirst();
+//                                                String table_name = c.getString(c.getColumnIndex("dataTableName"));
+                                            db.execSQL("drop table " + table_name);
+//                                db.execSQL("delete from " + table_name);
+                                            db.delete(DBConsts.INS_TAB_NAME, "dataTableName = ?", new String[]{table_name});
+//                                            }
+//                                          File f = new File(mProductDevicess.get(position).getCachePath());
+//                                          if (f.exists()) {
+//                                              f.delete();
+//                                              T.showSuccess(mContext, "删除成功");
+//                                          } else {
+//                                              T.showWarning(mContext, "文件不存在");
+//                                          }
+                                            initRecycleView();
+                                        }
+                                    }).setNegativeButton("取消", null).create().show();
+                            break;
+
+                    }
+                }
+            }).create().show();
+            return true;
+        }
+    };
 
     @Override
     protected void onDestroy() {
@@ -796,7 +712,7 @@ public class MainActivity extends ProgressDialogActivity
         if (App.logged_user.is_login()) {
             SharedPreferences sp = this.getSharedPreferences(SPConsts.PREFERENCE_APP_CONFIG, MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("lastName", App.logged_user.getName());
+            editor.putInt("last_userId", App.logged_user.getService_id());
             editor.commit();
         }
         super.onDestroy();
@@ -862,5 +778,50 @@ public class MainActivity extends ProgressDialogActivity
         //网络定位
         boolean isNetWorkProvider = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         return isGpsProvider || isNetWorkProvider;
+    }
+
+    class ConnectTask extends AsyncTask<Integer, Integer, Integer> {
+        Ins info;
+        boolean b;
+
+        @Override
+        protected void onPreExecute() {
+            showProgressDialog("请稍后", "正在连接");
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(Integer... params) {
+            mManagerForBLE.openBlueToothIfNeed();
+            info = mProductDevicess.get(params[0]);
+//            BluetoothDevice device = info.getDevice(mManagerForBLE.mBluetoothAdapter);
+//            boundDeviceIfNeed(device);
+            db.execSQL(DBConsts.createLightColorDataTableIfNotExist(info.getDataTableName()));
+            mManagerForBLE.v2manager.disconnect();
+            b = mManagerForBLE.v2manager.connectTo_2_Device(info.getAddress());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            dismissProgressDialog();
+            if (b) {
+                Intent i = null;
+                if (info.getType() == 0) {
+                    i = new Intent(MainActivity.this, LightColor2Activity.class);
+                } else if (info.getType() == 2) {
+                    i = new Intent(MainActivity.this, LustreActivity.class);
+                }
+                i.putExtra("tableName", info.getDataTableName());
+                i.putExtra("bleName", info.getBleName());
+                i.putExtra("bleAddress", info.getAddress());
+
+                startActivity(i);
+            } else {
+                mManagerForBLE.v2manager.disconnect();
+                T.showWarning(mContext, "连接失败,请稍后重试");
+            }
+            super.onPostExecute(integer);
+        }
     }
 }

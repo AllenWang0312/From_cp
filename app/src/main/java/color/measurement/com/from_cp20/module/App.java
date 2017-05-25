@@ -2,7 +2,6 @@ package color.measurement.com.from_cp20.module;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.webkit.WebView;
@@ -11,11 +10,9 @@ import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 import color.measurement.com.from_cp20.R;
 import color.measurement.com.from_cp20.common.imageloader.ImageLoaderProxy;
-import color.measurement.com.from_cp20.third.AppKeyContants;
-import color.measurement.com.from_cp20.manager.sp.SPConsts;
 import color.measurement.com.from_cp20.module.been.User;
+import color.measurement.com.from_cp20.third.AppKeyContants;
 import color.measurement.com.from_cp20.util.blankj.Utils;
-import color.measurement.com.from_cp20.util.utils.L;
 
 /**
  * Created by wpc on 2017/2/17.
@@ -33,7 +30,7 @@ public class App extends Application {
     //homepage 测试数据
 
     public static User logged_user = new User();
-
+    public static String tel_id;
     public static final String tianxing_apiKey = "9291ea05284c4520b600cbb6db6b12b1";
     public static String[] angles, lights;
 
@@ -42,6 +39,8 @@ public class App extends Application {
         super.onCreate();
         initPlugins();
         initSDK();
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        tel_id = tm.getDeviceId();
         angles = getResources().getStringArray(R.array.angle_set);
         lights = getResources().getStringArray(R.array.light_src);
 
@@ -51,19 +50,7 @@ public class App extends Application {
 //            }
             WebView.setWebContentsDebuggingEnabled(true);
         }
-        startAlerm();//??
     }
-
-    //轮询
-    private void startAlerm() {
-        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        SharedPreferences sp = this.getSharedPreferences(SPConsts.PREFERENCE_APP_CONFIG, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("tm", tm.getDeviceId());
-        editor.commit();
-        L.e("tm==" + tm.getDeviceId());
-    }
-
 
     //开源工具
     private void initPlugins() {

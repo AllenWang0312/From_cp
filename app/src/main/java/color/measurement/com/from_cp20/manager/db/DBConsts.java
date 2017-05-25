@@ -22,24 +22,20 @@ public class DBConsts {
     public static final String CREATE_USER_TABLE =
             "create table if not exists " + USER_TAB_NAME + "("
                     + "id integer primary key autoincrement,"
-                    + "service_id bigint unique,"
-                    + "name text unique,"
+                    + "service_id int unique,"
+                    + "name text,"
                     + "portrait text,"
                     + "password text,"
-                    + "hasLogin text,"
-                    + "tag text)";
+                    + "last_log_time bigint)";
     public static final String CREATE_INSTRUMENT_TABLE =
             "create table if not exists " + INS_TAB_NAME + "("
                     + "id integer primary key autoincrement,"
-                    + "userName text,"
+                    + "userId integer,"
                     + "type integer,"
-                    + "name text,"
-                    + "serical text,"
                     + "bleName text,"
                     + "address text,"
                     + "deviceVersion integer,"
                     + "cacheAbsPath text,"
-
                     + "dataTableName text unique)";
 
     //name = username_address

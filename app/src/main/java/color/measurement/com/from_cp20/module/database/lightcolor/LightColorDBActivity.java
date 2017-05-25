@@ -29,7 +29,7 @@ import color.measurement.com.from_cp20.manager.db.MySqlHelper;
 import color.measurement.com.from_cp20.manager.ins.Instrument;
 import color.measurement.com.from_cp20.manager.res.ResConsts;
 import color.measurement.com.from_cp20.manager.sp.SPConsts;
-import color.measurement.com.from_cp20.module.been.Instrument.Ins;
+import color.measurement.com.from_cp20.module.been.Ins;
 import color.measurement.com.from_cp20.module.been.data.LightColorData;
 import color.measurement.com.from_cp20.module.been.data.LustreData;
 import color.measurement.com.from_cp20.module.been.interfaze.CompareableData;
@@ -177,7 +177,7 @@ public class LightColorDBActivity extends BaseDBActivity {
                             if (table_c.getCount() == 1) {
                                 table_c.moveToFirst();
                                 Ins ins = new Ins(table_c);
-                                MySqlHelper.insertDataToMySql(instance.mStatement, MySqlConsts.ins_table, ins.toHashMapForMySql(mContext));
+                                MySqlHelper.insertDataToMySql(instance.mStatement, MySqlConsts.ins_table, ins,mContext);
                             }
                             if (type == 0)
                                 instance.mStatement.execute(String.format(MySql_light_color, table_name));
@@ -194,7 +194,7 @@ public class LightColorDBActivity extends BaseDBActivity {
                                     } else if (type == 2) {
                                         lc = new LustreData(c);
                                     }
-                                    MySqlHelper.insertDataToMySql(instance.mStatement, table_name, lc.toHashMapForMySql(mContext));
+                                    MySqlHelper.insertDataToMySql(instance.mStatement, table_name, lc,mContext);
                                     ContentValues cv = new ContentValues();
                                     long moment = c.getLong(c.getColumnIndex("moment"));
                                     cv.put("hasUpdata", 1);
@@ -264,7 +264,6 @@ public class LightColorDBActivity extends BaseDBActivity {
 //                            if (mManagerForBLE.isEnable()) {
 //                            App.logged_user.setConnectIns(ins);
 //                            i.putExtra("bleName", device.getName());
-//                            i.putExtra("bleAddress", device.getAddress());
                             i.putExtra("tableName", mStandDataDisplayFragment.getSelect_table_name());
                             i.putExtra("standName", mStandDataDisplayFragment.getGroups().get(check).getStand().getStand_name());
                             i.putExtra("page_index", 1);

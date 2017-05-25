@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -130,9 +129,9 @@ public class MySqlHelper {
         }
     }
 
-    public static void insertDataToMySql(Statement statement, String table_name, HashMap<String, Object> map) {
+    public static void insertDataToMySql(Statement statement, String table_name, Data data, Context context) {
         StringBuffer cloum = new StringBuffer(), values = new StringBuffer();
-        Iterator iter = map.entrySet().iterator();
+        Iterator iter = data.toHashMapForMySql(context).entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<String, Object> entry = (Map.Entry) iter.next();
             String key = entry.getKey();
@@ -150,6 +149,9 @@ public class MySqlHelper {
             }
         }
         try {
+//            int id = statement.executeUpdate("insert " + table_name + "(" + cloum.toString() + ")"
+//                    + "values(" + values.toString() + ")");
+//            return id;
             statement.execute("insert " + table_name + "(" + cloum.toString() + ")"
                     + "values(" + values.toString() + ")");
         } catch (SQLException e) {

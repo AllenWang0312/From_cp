@@ -40,6 +40,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:largeHeap="true"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme.Day">
         <activity
             android:name=".module.other.SplashActivity"
@@ -66,7 +67,6 @@
         <activity
             android:name=".module.main.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             >
         </activity>
         <activity
@@ -139,11 +139,11 @@
                   android:launchMode="singleInstance"
             />
 
-        <receiver android:name=".module.main.MyBroadCaseReceiver">
-            <intent-filter>
-                <action android:name="ELITOR_CLOCK" />
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name=".module.main.MyBroadCaseReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="ELITOR_CLOCK" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
         <!-- 推送 -->
 

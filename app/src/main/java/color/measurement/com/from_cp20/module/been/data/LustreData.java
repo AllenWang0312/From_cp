@@ -68,6 +68,11 @@ public class LustreData extends CompareableData {
     }
 
     @Override
+    public void setServiceId(int id) {
+
+    }
+
+    @Override
     public ContentValues getContentValue() {
         ContentValues cv = new ContentValues();
         cv.put("stand_name", stand_name);

@@ -7,7 +7,7 @@ import java.util.List;
 
 import color.measurement.com.from_cp20.R;
 import color.measurement.com.from_cp20.manager.ins.Instrument;
-import color.measurement.com.from_cp20.module.been.Instrument.Ins;
+import color.measurement.com.from_cp20.module.been.Ins;
 
 /**
  * Created by wpc on 2017/3/14.

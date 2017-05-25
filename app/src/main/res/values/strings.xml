@@ -105,6 +105,7 @@
 
     <string name="shifou_zhuxiao">是否注销登录?</string>
     <string name="shifou_qiangzhi">该账号已在其他设备上登录，是否强制登录?</string>
+
     <string name="queding">确定</string>
     <string name="quxiao">取消</string>
     <string name="ins_info">仪器信息</string>

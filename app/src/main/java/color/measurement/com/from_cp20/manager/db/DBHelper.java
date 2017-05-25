@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 import color.measurement.com.from_cp20.common.util.ParcelUtil;
 import color.measurement.com.from_cp20.manager.ins.Instrument;
-import color.measurement.com.from_cp20.module.been.Instrument.Ins;
+import color.measurement.com.from_cp20.module.been.Ins;
 import color.measurement.com.from_cp20.module.been.interfaze.CompareableData;
 import color.measurement.com.from_cp20.module.been.data.LightColorData;
 import color.measurement.com.from_cp20.module.been.data.LustreData;
@@ -42,9 +42,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public static ArrayList<Ins> initProductDataFromDataBase(SQLiteDatabase db, String username, Context context) {
+    public static ArrayList<Ins> initProductDataFromDataBase(SQLiteDatabase db, Integer id) {
         ArrayList<Ins> ins = new ArrayList<>();
-        Cursor c = db.rawQuery("select * from " + DBConsts.INS_TAB_NAME + " where userName = ? ", new String[]{username});
+        Cursor c = db.rawQuery("select * from " + DBConsts.INS_TAB_NAME + " where userId = ? ", new String[]{String.valueOf(id)});
         if (c.getCount() > 0) {
             if (c.moveToFirst()) {
                 do {

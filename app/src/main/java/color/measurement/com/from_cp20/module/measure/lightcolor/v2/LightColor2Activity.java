@@ -52,7 +52,9 @@ public class LightColor2Activity extends MeasureActivity {
     @Override
     protected void onResume() {
         Intent i = getIntent();
-        bleAddress = i.getStringExtra("bleAddress");
+        if(bleAddress==null){
+            bleAddress = i.getStringExtra("bleAddress");
+        }
         if(tableName==null){
             tableName = i.getStringExtra("tableName");
         }
@@ -260,6 +262,8 @@ public class LightColor2Activity extends MeasureActivity {
         public void run() {
             dismissProgressDialog();
             testTask.cancel(false);
+            mManagerForBLE.v2manager.disconnect();
+            mManagerForBLE.v2manager.connectTo_2_Device(bleAddress);
             T.showWarning(mContext, "请求超时,请确保蓝牙连接");
         }
     };

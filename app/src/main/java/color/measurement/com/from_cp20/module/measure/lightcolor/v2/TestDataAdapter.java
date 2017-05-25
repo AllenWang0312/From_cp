@@ -36,6 +36,12 @@ public class TestDataAdapter<T extends CompareableData> extends RecyclerView.Ada
     ArrayList<T> tests;
     Integer selectIndex;
 
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    Integer maxLength;
+
     public TestDataAdapter(Context context, SharedPreferences sp) {
         mContext = context;
         this.sp = sp;
@@ -122,7 +128,12 @@ public class TestDataAdapter<T extends CompareableData> extends RecyclerView.Ada
 
     @Override
     public int getItemCount() {
-        return tests.size()<10 ? tests.size() : 10;
+        if(maxLength!=null){
+            return tests.size()<maxLength ? tests.size() : maxLength;
+        }else {
+            return tests.size();
+        }
+
     }
 
     public void setSelectIndex(Integer selectIndex) {

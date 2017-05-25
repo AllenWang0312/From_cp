@@ -2,12 +2,11 @@ package color.measurement.com.from_cp20.module.been;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.Nullable;
 
 import java.util.HashMap;
 
-import color.measurement.com.from_cp20.module.been.Instrument.Ins;
 import color.measurement.com.from_cp20.module.been.interfaze.Data;
 
 /**
@@ -16,116 +15,95 @@ import color.measurement.com.from_cp20.module.been.interfaze.Data;
 
 public class User implements Data {
 
-    //    @Column(unique = true, defaultValue = "-1")
-//    int service_id;//服务器ID
-    Integer service_id;
-    boolean is_login;
+
+    Integer service_id=-1;
+    boolean is_login =false;
     int login_way, age;
-    String tel, name = "未登录", password, portrait_url, birthday, address, sign, business, config;
+    String tel, name = "未登录", password, portrait_url, birthday, address, sign, business;
     String qq_token, qq_openid, weixin_token, weixin_openid, weibo_token, weibo_openid;
-
     Ins connectIns;
-
-    public static class Builder {
-        Integer service_id;
-        boolean is_login;
-        int login_way, age;
-        String tel, name = "未登录", password, portrait_url, birthday, address, sign, business, config;
-        String qq_token, qq_openid, weixin_token, weixin_openid, weibo_token, weibo_openid;
-
-        public Builder setService_id(Integer service_id) {
-            this.service_id = service_id;  return this;
-        }
-
-        public Builder setIs_login(boolean is_login) {
-            this.is_login = is_login;  return this;
-        }
-
-        public Builder setLogin_way(int login_way) {
-            this.login_way = login_way;  return this;
-        }
-
-        public Builder setAge(int age) {
-            this.age = age;  return this;
-        }
-
-        public Builder setTel(String tel) {
-            this.tel = tel;  return this;
-        }
-
-        public Builder setName(String name) {
-            this.name = name;  return this;
-        }
-
-        public Builder setPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder setPortrait_url(String portrait_url) {
-            this.portrait_url = portrait_url;
-            return this;
-        }
-
-        public Builder setBirthday(String birthday) {
-            this.birthday = birthday;  return this;
-        }
-
-        public Builder setAddress(String address) {
-            this.address = address;  return this;
-        }
-
-        public Builder setSign(String sign) {
-            this.sign = sign;  return this;
-        }
-
-        public Builder setBusiness(String business) {
-            this.business = business;  return this;
-        }
-
-        public Builder setConfig(String config) {
-            this.config = config;  return this;
-        }
-
-        public Builder setQq_token(String qq_token) {
-            this.qq_token = qq_token;  return this;
-        }
-
-        public Builder setQq_openid(String qq_openid) {
-            this.qq_openid = qq_openid;  return this;
-        }
-
-        public Builder setWeixin_token(String weixin_token) {
-            this.weixin_token = weixin_token;  return this;
-        }
-
-        public Builder setWeixin_openid(String weixin_openid) {
-            this.weixin_openid = weixin_openid;  return this;
-        }
-
-        public Builder setWeibo_token(String weibo_token) {
-            this.weibo_token = weibo_token;  return this;
-        }
-
-        public Builder setWeibo_openid(String weibo_openid) {
-            this.weibo_openid = weibo_openid;  return this;
-        }
-
-        public User create() {
-            return new User(this);
-        }
-    }
-
-    public Ins getConnectIns() {
-        return connectIns;
-    }
-
-    public void setConnectIns(Ins connectIns) {
-        this.connectIns = connectIns;
-    }
-
+    String tel_id;
+    Long last_log_time;
     public User() {
 
+    }
+    public User(String nickname, String headAddress, int way) {
+        this.name = nickname;
+        portrait_url = headAddress;
+        login_way = way;
+    }
+    public User(Integer service_id, String name, String portrait_url, int login_way) {
+        this(name, portrait_url, login_way);
+        this.portrait_url = portrait_url;
+    }
+
+    public Long getLast_log_time() {
+        return last_log_time;
+    }
+
+    public void setLast_log_time(Long last_log_time) {
+        this.last_log_time = last_log_time;
+    }
+
+    public User(Cursor c){
+        this.service_id=c.getInt(c.getColumnIndex("service_id"));
+        this.name=c.getString(c.getColumnIndex("name"));
+        this.portrait_url=c.getString(c.getColumnIndex("portrait"));
+        this.password=c.getString(c.getColumnIndex("password"));
+        this.last_log_time=c.getLong(c.getColumnIndex("last_log_time"))  ;
+    }
+//    public User(String name, String password, @Nullable String portrait_url, boolean is_login) {
+//        this.name = name;
+//        if (portrait_url != null) {
+//            this.portrait_url = portrait_url;
+//        }
+//        this.password = password;
+//        this.is_login = is_login;
+//    }
+
+    @Override
+    public ContentValues getContentValue() {
+        ContentValues cv = new ContentValues();
+        cv.put("service_id", service_id);
+        cv.put("name", getName());
+        cv.put("password", getPassword());
+        cv.put("portrait", portrait_url);
+        cv.put("last_log_time",last_log_time);
+        return cv;
+    }
+
+    @Override
+    public HashMap<String, Object> toHashMapForMySql(Context context) {
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("login_way", login_way);
+        values.put("tel", tel);
+        values.put("name", name);
+        values.put("password", password);
+        values.put("qq_token", qq_token);
+        values.put("qq_openid", qq_openid);
+        values.put("weixin_token", weixin_token);
+        values.put("weixin_openid", weixin_openid);
+        values.put("weibo_token", weibo_token);
+        values.put("weibo_openid", weibo_openid);
+        values.put("age", age);
+        values.put("birthday", birthday);
+        values.put("address", address);
+        values.put("sign", sign);
+        values.put("business", business);
+
+        values.put("tel_id", tel_id);
+
+        values.put("has_login", is_login);
+        return values;
+    }
+
+    public void saveToSQLite(SQLiteDatabase db, String table_name) {
+        db.insert(table_name, null, getContentValue());
+    }
+
+    @Override
+    public void setServiceId(int id) {
+        this.service_id = id;
     }
 
     public User(Builder builder) {
@@ -141,7 +119,6 @@ public class User implements Data {
         this.address = builder.address;
         this.sign = builder.sign;
         this.business = builder.business;
-        this.config = builder.config;
         this.qq_token = builder.qq_token;
         this.qq_openid = builder.qq_openid;
         this.weixin_token = builder.weixin_token;
@@ -150,13 +127,111 @@ public class User implements Data {
         this.weibo_openid = builder.weibo_openid;
     }
 
-    public User(String name, String password, @Nullable String portrait_url, boolean is_login) {
-        this.name = name;
-        if (portrait_url != null) {
-            this.portrait_url = portrait_url;
+    public static class Builder {
+        Integer service_id;
+        boolean is_login;
+        int login_way, age;
+        String tel, name = "未登录", password, portrait_url, birthday, address, sign, business, config;
+        String qq_token, qq_openid, weixin_token, weixin_openid, weibo_token, weibo_openid;
+
+        public Builder setService_id(Integer service_id) {
+            this.service_id = service_id;
+            return this;
         }
-        this.password = password;
-        this.is_login = is_login;
+
+        public Builder setIs_login(boolean is_login) {
+            this.is_login = is_login;
+            return this;
+        }
+
+        public Builder setLogin_way(int login_way) {
+            this.login_way = login_way;
+            return this;
+        }
+
+        public Builder setAge(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder setTel(String tel) {
+            this.tel = tel;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder setPortrait_url(String portrait_url) {
+            this.portrait_url = portrait_url;
+            return this;
+        }
+
+        public Builder setBirthday(String birthday) {
+            this.birthday = birthday;
+            return this;
+        }
+
+        public Builder setAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder setSign(String sign) {
+            this.sign = sign;
+            return this;
+        }
+
+        public Builder setBusiness(String business) {
+            this.business = business;
+            return this;
+        }
+
+        public Builder setConfig(String config) {
+            this.config = config;
+            return this;
+        }
+
+        public Builder setQq_token(String qq_token) {
+            this.qq_token = qq_token;
+            return this;
+        }
+
+        public Builder setQq_openid(String qq_openid) {
+            this.qq_openid = qq_openid;
+            return this;
+        }
+
+        public Builder setWeixin_token(String weixin_token) {
+            this.weixin_token = weixin_token;
+            return this;
+        }
+
+        public Builder setWeixin_openid(String weixin_openid) {
+            this.weixin_openid = weixin_openid;
+            return this;
+        }
+
+        public Builder setWeibo_token(String weibo_token) {
+            this.weibo_token = weibo_token;
+            return this;
+        }
+
+        public Builder setWeibo_openid(String weibo_openid) {
+            this.weibo_openid = weibo_openid;
+            return this;
+        }
+
+        public User create() {
+            return new User(this);
+        }
     }
 
     public boolean is_login() {
@@ -189,42 +264,6 @@ public class User implements Data {
             return password;
         }
         return "null";
-    }
-
-    public void saveToSQLite(SQLiteDatabase db, String table_name) {
-        db.insert(table_name, null, getContentValue());
-    }
-
-    @Override
-    public ContentValues getContentValue() {
-        ContentValues cv = new ContentValues();
-        cv.put("service_id", service_id);
-        cv.put("name", getName());
-        cv.put("password", getPassword());
-        cv.put("portrait", portrait_url);
-        return cv;
-    }
-
-    @Override
-    public HashMap<String, Object> toHashMapForMySql(Context context) {
-        HashMap<String, Object> values = new HashMap<>();
-        values.put("login_way", login_way);
-        values.put("tel", tel);
-        values.put("name", name);
-        values.put("password", password);
-        values.put("qq_token", qq_token);
-        values.put("qq_openid", qq_openid);
-        values.put("weixin_token", weixin_token);
-        values.put("weixin_openid", weixin_openid);
-        values.put("weibo_token", weibo_token);
-        values.put("weibo_openid", weibo_openid);
-        values.put("age", age);
-        values.put("birthday", birthday);
-        values.put("address", address);
-        values.put("sign", sign);
-        values.put("business", business);
-        values.put("config", config);
-        return values;
     }
 
     public Integer getService_id() {
@@ -295,14 +334,6 @@ public class User implements Data {
         this.business = business;
     }
 
-    public String getConfig() {
-        return config;
-    }
-
-    public void setConfig(String config) {
-        this.config = config;
-    }
-
     public String getQq_token() {
         return qq_token;
     }
@@ -350,4 +381,21 @@ public class User implements Data {
     public void setWeibo_openid(String weibo_openid) {
         this.weibo_openid = weibo_openid;
     }
+
+    public String getTel_id() {
+        return tel_id;
+    }
+
+    public void setTel_id(String tel_id) {
+        this.tel_id = tel_id;
+    }
+
+    public Ins getConnectIns() {
+        return connectIns;
+    }
+
+    public void setConnectIns(Ins connectIns) {
+        this.connectIns = connectIns;
+    }
+
 }

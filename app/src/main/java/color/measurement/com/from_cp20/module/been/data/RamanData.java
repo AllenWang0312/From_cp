@@ -14,6 +14,11 @@ import color.measurement.com.from_cp20.module.been.interfaze.CompareableData;
 public class RamanData extends CompareableData {
 
     @Override
+    public void setServiceId(int id) {
+
+    }
+
+    @Override
     public ContentValues getContentValue() {
         return null;
     }

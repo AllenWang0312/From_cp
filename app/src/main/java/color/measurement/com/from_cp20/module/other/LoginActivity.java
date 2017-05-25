@@ -1,5 +1,6 @@
 package color.measurement.com.from_cp20.module.other;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -45,31 +46,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
-import color.measurement.com.from_cp20.third.AccessTokenKeeper;
-import color.measurement.com.from_cp20.third.AppKeyContants;
+import color.measurement.com.from_cp20.R;
+import color.measurement.com.from_cp20.base.ProgressDialogActivity;
 import color.measurement.com.from_cp20.manager.db.DBConsts;
 import color.measurement.com.from_cp20.manager.db.DBHelper;
 import color.measurement.com.from_cp20.manager.db.MySqlConsts;
+import color.measurement.com.from_cp20.manager.db.MySqlHelper;
 import color.measurement.com.from_cp20.manager.sp.SPConsts;
-import color.measurement.com.from_cp20.R;
-import color.measurement.com.from_cp20.base.ProgressDialogActivity;
-import color.measurement.com.from_cp20.manager.db.MySqlUtils;
 import color.measurement.com.from_cp20.module.App;
 import color.measurement.com.from_cp20.module.been.User;
+import color.measurement.com.from_cp20.third.AccessTokenKeeper;
+import color.measurement.com.from_cp20.third.AppKeyContants;
 import color.measurement.com.from_cp20.util.blankj.StringUtils;
 import color.measurement.com.from_cp20.util.utils.L;
 import es.dmoral.toasty.Toasty;
 
+import static color.measurement.com.from_cp20.module.other.LoginConsts.NAME;
 import static color.measurement.com.from_cp20.module.other.LoginConsts.QQ;
 import static color.measurement.com.from_cp20.module.other.LoginConsts.SCOPE;
 import static color.measurement.com.from_cp20.module.other.LoginConsts.TEL;
@@ -81,8 +81,10 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
 
     Context mContext;
     @BindView(R.id.toolbar) Toolbar mToolbarGlobal;
+
     @BindView(R.id.et_name_login) EditText mEtNameLogin;
     @BindView(R.id.et_password_login) EditText mEtPasswordLogin;
+
     @BindView(R.id.login_login) Button mLoginLogin;
 
     @BindView(R.id.social_qq_login) ImageView mSocialQqLogin;
@@ -94,15 +96,6 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
     @BindView(R.id.mima_check) CheckBox mimaCheckBox;
 
     private Connection con = null;
-    private String sql;
-    private ResultSet rs = null;
-    private String mPass;
-    private String mName;
-
-    private String loginName;
-    private String loginImageUrl;
-    private int login_way;
-
     private Tencent mMTencent;
     private UserInfo qqInfo;//qq
 
@@ -111,13 +104,12 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
     private SsoHandler mSsoHandler;
     //weixin
     private IWXAPI api;
-    String openID = null;
-    private String mAccessToken1;
     SharedPreferences sp;
     DBHelper dbHelper;
     SQLiteDatabase db;
     private boolean is_QQ;
-    private Statement mStmt;
+
+    MySqlHelper instance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +118,9 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
         ButterKnife.bind(this);
         sp = getSharedPreferences(SPConsts.PREFERENCE_APP_CONFIG, MODE_PRIVATE);
         mContext = this;
+        dbHelper = new DBHelper(mContext, DBConsts.DATE_BASE, null, 1);
+        db = dbHelper.getWritableDatabase();
+        instance = MySqlHelper.getInstance(mContext);
 
         textZhuce.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         mMTencent = Tencent.createInstance(AppKeyContants.QQ_APPID, this.getApplicationContext());
@@ -277,36 +272,28 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
 
         @Override
         public void onComplete(Bundle values) {
-            L.e("weibo 回调");
             // TODO Auto-generated method stub
             // 从 Bundle 中解析 Token
             mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-            L.e("value===" + values.toString());
             if (mAccessToken.isSessionValid()) {
                 String nickname = String.valueOf(values
                         .get("com.sina.weibo.intent.extra.NICK_NAME"));
-                L.e("nickname==" + nickname);
                 String access_token = String.valueOf(values
                         .get("com.sina.weibo.intent.extra.access_token"));
-                L.e("access_token==" + access_token);
-
                 String uid = String.valueOf(values
                         .get("com.sina.weibo.intent.extra.uid"));
-                L.e("uid==" + uid);
-
                 String _weibo_transaction = String.valueOf(values
                         .get("com.sina.weibo.intent.extra._weibo_transaction"));
-                L.e("_weibo_transaction==" + _weibo_transaction);
                 // 保存 Token 到 SharedPreferences
                 AccessTokenKeeper.writeAccessToken(LoginActivity.this,
                         mAccessToken);
                 Toast.makeText(LoginActivity.this, "授权成功", Toast.LENGTH_SHORT)
                         .show();
                 String headAddress = String.valueOf(values.get("com.sina.weibo.intent.extra.USER_ICON"));
-                L.e("headAddress==" + headAddress);
-                loginName = nickname;//微博
-                loginImageUrl = headAddress;
-                login_way = WEIBO;
+                App.logged_user = new User(nickname, headAddress, WEIBO);
+                App.logged_user.setIs_login(true);
+                App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
+
                 mHandler.sendEmptyMessage(6);
             } else {
                 // 以下几种情况，您会收到 Code：
@@ -333,15 +320,12 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
 
     }
 
+    String openID = null;
+    private String mAccessToken1;
+
     private class BaseUiListener implements IUiListener {
-        protected void doComplete(JSONObject values) {
-
-        }
-
         @Override
         public void onComplete(Object response) {
-            L.e("onComplete:");
-            L.e(response.toString());
             JSONObject jo = (JSONObject) response;
             int ret = 0;
             try {
@@ -349,7 +333,6 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            L.e("json=" + String.valueOf(jo));
             if (ret == 0) {
                 Toast.makeText(mContext, "登录成功",
                         Toast.LENGTH_LONG).show();
@@ -358,16 +341,21 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
                     openID = jo.getString("openid");
                     mAccessToken1 = jo.getString("access_token");
                     String expires = jo.getString("expires_in");
-                    L.e("qq openID==" + openID);
                     mMTencent.setOpenId(openID);
                     mMTencent.setAccessToken(mAccessToken1, expires);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                getuserInfo();
-                doComplete((JSONObject) response);
+                qqInfo = new UserInfo(LoginActivity.this, mMTencent.getQQToken());
+                qqInfo.getUserInfo(getQQinfoListener);
+//                doComplete((JSONObject) response);
             }
+
         }
+//
+//        protected void doComplete(JSONObject values) {
+//
+//        }
 
         @Override
         public void onError(UiError e) {
@@ -393,8 +381,7 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
     }
 
     private void getuserInfo() {
-        qqInfo = new UserInfo(LoginActivity.this, mMTencent.getQQToken());
-        qqInfo.getUserInfo(getQQinfoListener);
+
     }
 
     private IUiListener getQQinfoListener = new IUiListener() {
@@ -402,16 +389,47 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
         public void onComplete(Object response) {
             try {
                 JSONObject jsonObject = (JSONObject) response;
-                L.e("qq用户信息", jsonObject.toString());
                 String headImage = (String) jsonObject.get("figureurl_qq_2");
                 String name = jsonObject.getString("nickname");
                 String gender = jsonObject.getString("gender");
                 String province = jsonObject.getString("province");
                 String city = jsonObject.getString("city");
-                loginImageUrl = headImage;
-                loginName = name;//qq登录
-                login_way = QQ;
-                MySqlUtils.getConnect("", name, "", mAccessToken1, openID, "", "", "", "", "", "", province + city, "", "", "");
+                App.logged_user = new User(name, headImage, QQ);
+                App.logged_user.setAddress(province + city);
+                App.logged_user.setQq_token(mAccessToken1);
+                App.logged_user.setQq_openid(openID);
+                App.logged_user.setTel_id(App.tel_id);
+
+                new MySqlHelper.MySQLAsyTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ResultSet set = instance.mStatement.executeQuery("select * from " + MySqlConsts.user_table + " where qq_openid = '" + openID + "'");
+                            if (set.first()) {
+                                instance.mStatement.executeUpdate("update " + MySqlConsts.user_table + " set qq_token = '" + mAccessToken1 + "' where qq_openid = '" + openID + "'");
+                            } else {
+                                MySqlHelper.insertDataToMySql(instance.mStatement,
+                                        MySqlConsts.user_table,
+                                        App.logged_user, mContext);
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            ResultSet rs = instance.mStatement.executeQuery("select * from " + MySqlConsts.user_table + " where qq_openid = '" + openID + "'");
+                            if (rs.first()) {
+                                App.logged_user.setService_id(rs.getInt("ID"));
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        App.logged_user.setIs_login(true);
+                        App.logged_user.setLast_log_time(System.currentTimeMillis());
+                        App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
+                    }
+                }, true).execute();
+
                 mHandler.sendEmptyMessage(7);
                 //处理自己需要的信息
             } catch (Exception e) {
@@ -457,133 +475,61 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
     };
 
     private void zhuLogin() {
-        L.e("login");
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("username", mEtNameLogin.getText().toString().trim());
-        editor.putString("password", mEtPasswordLogin.getText().toString().trim());
-        editor.commit();
         final String name = mEtNameLogin.getText().toString().trim();
         final String password = mEtPasswordLogin.getText().toString().trim();
+
         if (StringUtils.isEmpty(name) || StringUtils.isEmpty(password)) {
             mHandler.sendEmptyMessage(2);
             return;
         }
-        showProgressDialog("请稍后", "正在登录中...");
         mHandler.postDelayed(mRunnable, 5000);
-        new Thread() {
+        new MySqlHelper.MySQLAsyTask(new Runnable() {
             @Override
             public void run() {
-                boolean IS_SUCCESS = false;
+
                 try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                try {
-                    con = DriverManager
-                            .getConnection(
-                                    "jdbc:mysql://rdsz4kl5za13u8d0m3i8spublic.mysql.rds.aliyuncs.com:3306/chnspec",
-                                    "spec3205722251", "spec3205722251");
-                    L.e("con==" + con);
-                    if (con != null) {// 初始化连接mysql
-                        mStmt = con.createStatement();
-                        String sql = "SELECT COUNT(*) FROM " + MySqlConsts.user_table;
-                        L.e("spl==" + sql);
-                        mStmt.executeQuery(sql);
-                        L.e("表存在");
-                        if (color.measurement.com.from_cp20.common.util.StringUtils.isMobileNO(name)) {//手机号
-                            sql = "SELECT password from " + MySqlConsts.user_table + " where login_way = '1' and tel =" + name + "";
-                            L.e("spl==" + sql);
-                            rs = mStmt.executeQuery(sql);
-                            if (rs.next()) {
-                                mPass = (String) rs.getObject("password");
-                            }
-                            L.e("mpass==" + mPass);
-                            sql = "SELECT name from " + MySqlConsts.user_table + " where tel =" + name + "";
-                            rs = mStmt.executeQuery(sql);
-                            if (rs.next()) {
-                                mName = (String) rs.getObject("name");
-                            }
-                            L.e("mName==" + mName);
-                            if (!mPass.equals("") && mPass.equals(password)) {
-                                L.e("账号密码都正确  登录");
-                                IS_SUCCESS = true;
-                                loginName = mName;
-                                loginImageUrl = "";
-                                login_way = TEL;
-                            }
-                        } else {//用户名
-                            sql = "SELECT password from " + MySqlConsts.user_table + "  where login_way = '1' and name ='" + name + "'";
-                            L.e("spl==" + sql);
-                            rs = mStmt.executeQuery(sql);
-                            if (rs.next()) {
-                                mPass = (String) rs.getObject("password");
-                            }
-                            L.e("mpass==" + mPass);
-                            if (mPass != null && !mPass.equals("") && mPass.equals(password)) {
-                                L.e("账号密码都正确  登录");
-                                loginName = name;
-                                loginImageUrl = "";
-                                login_way = TEL;
-                                IS_SUCCESS = true;
-                            }
+                    if (color.measurement.com.from_cp20.common.util.StringUtils.isMobileNO(name)) {//手机号
+                        ResultSet rs = instance.mStatement.executeQuery("SELECT * from " + MySqlConsts.user_table + " where tel = '" + name + "' and password = '" + password + "'");
+                        if (rs.first()) {
+                            App.logged_user = new User(rs.getInt("ID"), name, "", TEL);
+                            App.logged_user.setIs_login(true);
+                            App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
+                            mHandler.sendEmptyMessage(1);
+                            mHandler.removeCallbacks(mRunnable);
+                        } else {
+                            mHandler.sendEmptyMessage(0);
                         }
-                        L.e("1");
-                        L.e("IS_SUCCESS==" + IS_SUCCESS);
-                        if (IS_SUCCESS) {
+                    } else {//用户名
+                        ResultSet rs = instance.mStatement.executeQuery("SELECT password from " + MySqlConsts.user_table + "  where name ='" + name + "' and password = '" + password + "'");
+                        if (rs.first()) {
+                            App.logged_user = new User(rs.getInt("ID"), name, "", NAME);
+                            App.logged_user.setIs_login(true);
+                            App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
                             mHandler.sendEmptyMessage(1);
                             mHandler.removeCallbacks(mRunnable);
                         } else {
                             mHandler.sendEmptyMessage(0);
                         }
                     }
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                super.run();
             }
-        }.start();
+        }, true).execute();
     }
 
     private void turnMainActivity(int requestCode) {
-        SharedPreferences sp = getSharedPreferences(SPConsts.PREFERENCE_APP_CONFIG, MODE_PRIVATE);
-        final String tm = sp.getString("tm", "");
-        new Thread() {
+        new MySqlHelper.MySQLAsyTask(new Runnable() {
             @Override
             public void run() {
-                sql = "select * from " + MySqlConsts.user_table + " where name = '" + loginName + "'";
                 try {
-                    if (mStmt == null) {
-                        try {
-                            Class.forName("com.mysql.jdbc.Driver");
-                            con = DriverManager
-                                    .getConnection(
-                                            "jdbc:mysql://rdsz4kl5za13u8d0m3i8spublic.mysql.rds.aliyuncs.com:3306/chnspec",
-                                            "spec3205722251", "spec3205722251");
-                            mStmt = con.createStatement();
-                        } catch (SQLException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                    rs = mStmt.executeQuery(sql);
+                    ResultSet rs = instance.mStatement.executeQuery("select * from " + MySqlConsts.user_table + " where ID = '" + App.logged_user.getService_id() + "'");
                     if (rs.next()) {
-                        String config = (String) rs.getObject("config");
-                        if (config.endsWith("true")) {
-                            String[] strs = config.split("t");
-                            String now = strs[0].toString();
-                            if (!tm.equals(now)) {
-                                //提示是否强制登录
-                                mHandler.sendEmptyMessage(8);
-                            } else {
-                                //正常登录
-                                mHandler.sendEmptyMessage(9);
-                            }
-                            L.e("strs[0].toString();==" + strs[0].toString());
+                        String tel_id = rs.getString("tel_id");
+                        if (!App.tel_id.equals(tel_id)) {
+                            //提示是否强制登录
+                            mHandler.sendEmptyMessage(8);
                         } else {
                             //正常登录
                             mHandler.sendEmptyMessage(9);
@@ -594,12 +540,10 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
-                } finally {
-                    dismissProgressDialog();
                 }
-                super.run();
             }
-        }.start();
+        }, true).execute();
+
         //先判断此账号是否登录
     }
 
@@ -612,14 +556,15 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
                     mHandler.removeCallbacks(mRunnable);
                     Toast.makeText(LoginActivity.this, "账号或密码不正确", Toast.LENGTH_SHORT).show();
                     break;
-                case 2:
-                    Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_SHORT).show();
-                    break;
                 case 1:
                     //注册账号登录
                     is_QQ = false;
                     turnMainActivity(20);
                     break;
+                case 2:
+                    Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_SHORT).show();
+                    break;
+
                 case 5:
                     Toast.makeText(LoginActivity.this, "当前无网络,请检查网络", Toast.LENGTH_SHORT).show();
                     break;
@@ -634,31 +579,40 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
                     turnMainActivity(22);
                     break;
                 case 8:
-                    showDialog2(mContext, R.string.shifou_qiangzhi,
-                            R.string.queding, R.string.quxiao, new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(mContext).setTitle("提示").
+                            setMessage(R.string.shifou_qiangzhi).setPositiveButton(R.string.queding,
+                            new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mHandler.sendEmptyMessage(9);
                                 }
-                            }, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dismissProgressDialog();
-                                }
-                            }, true);
+                            }).setNegativeButton(R.string.quxiao, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dismissProgressDialog();
+                        }
+                    }).setCancelable(true).show();
+
                     break;
                 case 9:
-                    SharedPreferences sp = getSharedPreferences(SPConsts.PREFERENCE_APP_CONFIG, MODE_PRIVATE);
-                    final String tm = sp.getString("tm", "");
-                    dbHelper = new DBHelper(mContext, DBConsts.DATE_BASE, null, 1);
-                    db = dbHelper.getWritableDatabase();
-                    MySqlUtils.updata(tm, MySqlConsts.user_table, "true");
-                    App.logged_user = new User(loginName, is_QQ ? "" : mEtPasswordLogin.getText().toString().trim(), loginImageUrl, true);
-                    App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
+                    new MySqlHelper.MySQLAsyTask(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                instance.mStatement.executeUpdate("update " + MySqlConsts.user_table + " set tel_id = '" + App.tel_id + "' where ID = '" + App.logged_user.getService_id() + "'");
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, true).execute();
+
+//                    new Thread(new MySqlUtils.UpLoadThread(App.tel_id, MySqlConsts.user_table, "true")).start();
+//                    App.logged_user = new User(loginName, is_QQ ? "" : mEtPasswordLogin.getText().toString().trim(), loginImageUrl, true);
+//                    App.logged_user.saveToSQLite(db, DBConsts.USER_TAB_NAME);
                     Intent intent2 = new Intent();
                     setResult(20, intent2);
-                    App.logged_user.setName(loginName);
-                    App.logged_user.setIs_login(true);
+//                    App.logged_user.setName(loginName);
+//                    App.logged_user.setIs_login(true);
                     mHandler.sendEmptyMessage(10);
                     finish();
                     break;
@@ -670,18 +624,6 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
             super.handleMessage(msg);
         }
     };
-
-    private android.support.v7.app.AlertDialog showDialog2(
-            Context context, int message, int sureText,
-            int cancelText, DialogInterface.OnClickListener sureListener,
-            DialogInterface.OnClickListener cancelListener, boolean cancelable) {
-        android.support.v7.app.AlertDialog dialog =
-                new android.support.v7.app.AlertDialog.Builder(context).setTitle("提示").
-                        setMessage(message).setPositiveButton(sureText,
-                        sureListener).setNegativeButton(cancelText, cancelListener).
-                        setCancelable(cancelable).show();
-        return dialog;
-    }
 //    private boolean isMobileNO(String mobiles) {
 //        String telRegex = "[1][358]\\d{9}";//"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
 //        if (TextUtils.isEmpty(mobiles)) return false;

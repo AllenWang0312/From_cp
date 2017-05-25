@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         applicationId "color.measurement.com.from_cp20"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 22
 
 //        multiDexEnabled true
@@ -119,6 +119,9 @@ dependencies {
 
     //微信
     compile'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
+    //悬浮引导框架
+    compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
 
     //SQL 管理
 //    compile 'com.idescout.sql:sqlscout-server:2.0'

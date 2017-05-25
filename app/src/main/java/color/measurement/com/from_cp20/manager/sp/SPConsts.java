@@ -7,6 +7,9 @@ public class SPConsts {
 
 
     public final static String PREFERENCE_APP_CONFIG = "color.measurement.com.from_cp20.appconfig_preferences";
+    public final static String LOGIN_GUIDE="login_guide";
+    public final static String ADD_DEV_GUIDE="add_dev_guide";
+
     public static final String FIRST_LANCHERED = "first_lunchered";
     //命名规范 包名.模块名_preferences
 

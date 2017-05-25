@@ -10,6 +10,7 @@ import java.util.HashMap;
  */
 
 public interface Data {
+    void setServiceId(int id);
     //save to sqlite
     ContentValues getContentValue();
     //save to mysql

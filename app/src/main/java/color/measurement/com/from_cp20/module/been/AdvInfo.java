@@ -51,6 +51,11 @@ public class AdvInfo implements Data {
     }
 
     @Override
+    public void setServiceId(int id) {
+
+    }
+
+    @Override
     public ContentValues getContentValue() {
         return null;
     }

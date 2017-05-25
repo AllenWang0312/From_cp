@@ -161,9 +161,10 @@ public class TestFragment extends GroupDisplayFragment implements Observer {
             mRecycTest.setVisibility(View.VISIBLE);
             if (group.getTests() != null) {
                 if (titles.size() > 0) {
-                    if (group.getTests() != null && group.getTests().size() > 0) {
+                    if (group.getTests() != null) {
                         if (adapter == null) {
                             adapter = new TestDataAdapter(mContext, sp);
+                            adapter.maxLength=10;
 //                adapter = new TestDataAdapter(mContext, sp, titles, group.getTests(), group.getSelectIndex());
 //                            if (adapter.getItemClickListener() == null) {
                                 adapter.setItemClickListener(new OnItemClickListener() {
