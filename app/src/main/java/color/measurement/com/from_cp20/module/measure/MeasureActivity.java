@@ -27,6 +27,7 @@ import es.dmoral.toasty.Toasty;
  */
 
 public abstract class MeasureActivity<T extends CompareableData> extends ProgressDialogActivity {
+
     @BindView(R.id.toolbar) protected Toolbar mToolbar;
     @BindView(R.id.viewPager) protected CustomViewPager mViewPager;
     //    @BindView(R.id.ll1_left) LinearLayout mLl1Left;
@@ -42,6 +43,7 @@ public abstract class MeasureActivity<T extends CompareableData> extends Progres
     protected boolean need_response = false;
     protected String tableName;
     protected String bleAddress;
+    protected  String settingStr;
 
     protected int pageIndex;
     protected String standName;

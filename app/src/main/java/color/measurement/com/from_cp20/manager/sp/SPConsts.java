@@ -34,8 +34,8 @@ public class SPConsts {
     public final static String STAND_AUTO_NAME = "stand_auto_name";
     public final static String SIMPLE_AUTO_NAME = "simple_auto_name";
 //是否有图表 0 1 2
-    public final static String STAND_DATA_MOD = "stand_data_mod";
-    public final static String SIMPLE_DATA_MOD = "simple_data_mod";
+    public final static String STAND_DATA_MOD = "stand_view_mod";
+    public final static String SIMPLE_DATA_MOD = "simple_view_mod";
 
     public final static String PREFERENCE_LUSTRE = "color.measurement.com.from_cp20.lustre_preferences";
 

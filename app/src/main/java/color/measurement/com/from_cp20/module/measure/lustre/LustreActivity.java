@@ -210,6 +210,7 @@ public class LustreActivity extends MeasureActivity {
         @Override
         protected Object doInBackground(Object[] params) {
             Log.i("check:", "lustre checked");
+
             byte[] result = mManagerForBLE.v2manager.whiteToSocket(BLE_Order.L.TEST_DATA, 18);
             result_sim = new LustreData(result);
             mHandler.removeCallbacks(timeoutCallback);
@@ -249,8 +250,14 @@ public class LustreActivity extends MeasureActivity {
         @Override
         public void run() {
             dismissProgressDialog();
-            testTask.cancel(true);
             T.showWarning(mContext, "请求超时,请确保蓝牙连接");
+            testTask.cancel(true);
+
+            mManagerForBLE.v2manager.disconnect();
+           if(mManagerForBLE.v2manager.connectTo_2_Device(bleAddress)){
+               T.showSuccess(mContext, "重新连接成功");
+           }
+
         }
     };
     TestTask testTask;

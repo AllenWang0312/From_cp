@@ -8,8 +8,6 @@ android {
     dexOptions {
         jumboMode = true
     }
-
-
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -42,19 +40,17 @@ android {
         minSdkVersion 19
         targetSdkVersion 22
 
-//        multiDexEnabled true
-
         versionCode 1
         versionName "1.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-/*    buildTypes {
-        release {
+//  buildTypes {
+//        release {
 //            minifyEnabled false //开启混淆
 //            shrinkResources true //资源压缩
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }*/
+//        }
+//    }
 }
 
 repositories {
@@ -70,14 +66,13 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     compile project(path: ':openfilehelper')
     compile project(':color_translater')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-//官方
+    //官方
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:support-v4:25.3.0'
     compile 'com.android.support:design:25.3.0'
@@ -85,7 +80,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.4.1'
     compile 'com.google.android:flexbox:0.2.6'
-
     //log
     compile 'com.orhanobut:logger:1.15'
     compile 'com.github.GrenderG:Toasty:1.1.4'
@@ -102,32 +96,26 @@ dependencies {
     //View
     compile 'com.lucasurbas:listitemview:0.9.0'
     compile 'com.youth.banner:banner:1.4.9'
-    compile 'com.jude:easyrecyclerview:4.2.3'//News
+    compile 'com.jude:easyrecyclerview:4.2.3'
+    //News
     compile 'de.hdodenhof:circleimageview:2.1.0'
     //recyc adapter
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.9.7'
-
     //butterknife
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
     //litepal
-//    compile 'org.litepal.android:core:1.4.1'
-
+    //    compile 'org.litepal.android:core:1.4.1'
     compile name: 'SMSSDK-2.1.3', ext: 'aar'
     compile name: 'SMSSDKGUI-2.1.3', ext: 'aar'
-
     //微信
-    compile'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     //悬浮引导框架
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
-
     //SQL 管理
-//    compile 'com.idescout.sql:sqlscout-server:2.0'
-
-//    compile 'com.facebook.stetho:stetho:1.5.0'
-//    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    //    compile 'com.idescout.sql:sqlscout-server:2.0'
+    //    compile 'com.facebook.stetho:stetho:1.5.0'
+    //    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     //    //bmob
     //    //以下SDK开发者请根据需要自行选择
     //    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:

@@ -1,7 +1,6 @@
 package color.measurement.com.from_cp20.module.other;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -649,23 +648,4 @@ public class LoginActivity extends ProgressDialogActivity implements View.OnClic
         }*/
         return super.onOptionsItemSelected(item);
     }
-
-    public void showProgressDialog(String title, String meg) {
-        if (dialog == null) {
-            dialog = new ProgressDialog(mContext);
-        }
-        dialog.setCancelable(false);
-        dialog.setTitle(title);
-        dialog.setMessage(meg);
-        dialog.show();
-    }
-
-    public void dismissProgressDialog() {
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-            return;
-        }
-    }
-
-
 }

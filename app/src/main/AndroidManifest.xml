@@ -40,7 +40,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:largeHeap="true"
-        android:screenOrientation="portrait"
         android:theme="@style/AppTheme.Day">
         <activity
             android:name=".module.other.SplashActivity"
@@ -66,24 +65,26 @@
         <!-- </activity> -->
         <activity
             android:name=".module.main.MainActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
             >
         </activity>
         <activity
             android:name=".module.other.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="登录"
             >
         </activity>
         <activity
-            android:name=".module.other.RegisterActivity"
+            android:name=".module.other.RegisterActivity"    android:screenOrientation="portrait"
             >
         </activity>
         <activity
-            android:name=".module.information.NewsDetiaslActivity"
+            android:name=".module.information.NewsDetiaslActivity"    android:screenOrientation="portrait"
             >
         </activity>
         <activity
-            android:name=".module.other.tools.ToolsActivity"
+            android:name=".module.other.tools.ToolsActivity"    android:screenOrientation="portrait"
             >
         </activity>
 
@@ -96,46 +97,58 @@
         <!--</activity>-->
 
         <activity
-            android:name=".module.other.SettingActivity"
+            android:name=".module.other.SettingActivity"    android:screenOrientation="portrait"
             android:label="@string/title_activity_settings">
         </activity>
         <activity
-            android:name=".module.other.GuideActivity"
+            android:name=".module.other.GuideActivity"    android:screenOrientation="portrait"
             >
         </activity>
-        <activity android:name=".module.other.CompleteInfoActivity">
+        <activity android:name=".module.other.CompleteInfoActivity"
+                  android:screenOrientation="portrait"
+            >
         </activity>
         <activity
             android:name=".module.other.WebViewActivity"
+            android:screenOrientation="portrait"
             >
         </activity>
         <activity
             android:name=".module.Test.TestActivity"
+            android:screenOrientation="portrait"
             >
         </activity>
         <activity
             android:name=".module.measure.lightcolor.v2.LightColor2Activity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_light_color2"
             android:launchMode="singleInstance"
             >
         </activity>
         <activity
             android:name=".module.measure.lightcolor.v2.LightColor4Activity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_light_color4"
             android:launchMode="singleInstance"
             >
         </activity>
         <activity android:name=".module.measure.lustre.LustreActivity"
+                  android:screenOrientation="portrait"
                   android:label="@string/title_activity_lustre"
                   android:launchMode="singleInstance"
             ></activity>
 
-        <activity android:name=".module.other.AboutActivity">
+        <activity android:name=".module.other.AboutActivity"
+                  android:screenOrientation="portrait"
+            >
         </activity>
 
-        <activity android:name=".module.other.UserInfoActivity"/>
+        <activity android:name=".module.other.UserInfoActivity"
+                  android:screenOrientation="portrait"
+            />
 
         <activity android:name=".module.database.lightcolor.LightColorDBActivity"
+                  android:screenOrientation="portrait"
                   android:launchMode="singleInstance"
             />
 

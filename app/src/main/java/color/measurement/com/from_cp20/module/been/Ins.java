@@ -46,6 +46,12 @@ public class Ins implements Data {
     String dataTableName;
     Integer deviceVersion;
 
+    public String getSetting_jsonStr() {
+        return setting_jsonStr;
+    }
+
+    String setting_jsonStr;
+
     public Ins(Context context, String bleName, String address) {
         this.bleName = bleName;
         this.address = address;
@@ -134,6 +140,7 @@ public class Ins implements Data {
             address = c.getString("address");
             dataTableName = c.getString("dataTableName");
             deviceVersion = c.getInt("deviceVersion");
+            setting_jsonStr = c.getString("setting");
         } catch (SQLException e) {
             e.printStackTrace();
         }

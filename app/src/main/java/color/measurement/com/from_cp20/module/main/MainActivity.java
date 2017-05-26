@@ -815,7 +815,7 @@ public class MainActivity extends ProgressDialogActivity
                 i.putExtra("tableName", info.getDataTableName());
                 i.putExtra("bleName", info.getBleName());
                 i.putExtra("bleAddress", info.getAddress());
-
+                i.putExtra("settingStr", info.getSetting_jsonStr());
                 startActivity(i);
             } else {
                 mManagerForBLE.v2manager.disconnect();

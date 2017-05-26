@@ -7,9 +7,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,7 @@ import color.measurement.com.from_cp20.manager.NumEndedString;
 import color.measurement.com.from_cp20.manager.res.ResConsts;
 import color.measurement.com.from_cp20.manager.res.ResHelper;
 import color.measurement.com.from_cp20.manager.sp.SPConsts;
+import color.measurement.com.from_cp20.module.been.LCSetting;
 import color.measurement.com.from_cp20.module.been.data.LightColorData;
 import color.measurement.com.from_cp20.module.been.wapper.GroupData;
 import color.measurement.com.from_cp20.module.database.lightcolor.LightColorDBActivity;
@@ -42,7 +46,12 @@ public class LightColor2Activity extends MeasureActivity {
     TestFragment mGroupFrag;
     StandTestFragment mStandFrag;
 
-    private Handler mHandler =new Handler();
+    Gson gson = new Gson();
+
+    LCSetting setting;
+
+    private Handler mHandler = new Handler();
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -51,13 +60,20 @@ public class LightColor2Activity extends MeasureActivity {
 
     @Override
     protected void onResume() {
+        Log.i("onResume", "LightColor2");
         Intent i = getIntent();
-        if(bleAddress==null){
+
+        if (bleAddress == null) {
             bleAddress = i.getStringExtra("bleAddress");
         }
-        if(tableName==null){
+        if (tableName == null) {
             tableName = i.getStringExtra("tableName");
         }
+        if (settingStr == null) {
+            settingStr = i.getStringExtra("settingStr");
+            setting = gson.fromJson(settingStr, LCSetting.class);
+        }
+
         standName = i.getStringExtra("standName");
         pageIndex = i.getIntExtra("page_index", -1);
         if (StringUtils.isEmpty(standName)) {
@@ -124,6 +140,7 @@ public class LightColor2Activity extends MeasureActivity {
             }
         });
     }
+
     String name = null, tips = null;
 
     @OnClick(R.id.ll3_save)
@@ -186,6 +203,7 @@ public class LightColor2Activity extends MeasureActivity {
 //            T.showSuccess(mContext, "保存成功");
         }
     }
+
     class TestTask extends AsyncTask {
         @Override
         protected void onPreExecute() {
@@ -245,7 +263,6 @@ public class LightColor2Activity extends MeasureActivity {
 //                    mGroupData.addTest(result_sim);
                 }
             }
-
             return null;
         }
 
@@ -291,7 +308,7 @@ public class LightColor2Activity extends MeasureActivity {
         } else {
             standard = false;
         }
-        if(testTask!=null){
+        if (testTask != null) {
             testTask.cancel(true);
         }
         testTask = new TestTask();
@@ -347,6 +364,7 @@ public class LightColor2Activity extends MeasureActivity {
         }
         return true;
     }
+
     @Override
     public void onBackPressed() {
         if (mViewPager.getCurrentItem() == 1) {
