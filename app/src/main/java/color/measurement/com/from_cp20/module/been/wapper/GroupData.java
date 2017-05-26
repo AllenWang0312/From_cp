@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import color.measurement.com.from_cp20.manager.Ble_4.bean.Setting;
 import color.measurement.com.from_cp20.module.been.interfaze.CompareableData;
 
 /**
@@ -14,9 +15,10 @@ import color.measurement.com.from_cp20.module.been.interfaze.CompareableData;
  *             addTest
  */
 
-public class GroupData<T extends CompareableData> extends Observable {
+public class GroupData<T extends CompareableData,S extends Setting> extends Observable {
 
     T stand;
+    S setting;
     ArrayList<T> tests;
     Integer selectIndex=0, lastSelect=0;
 
@@ -107,5 +109,13 @@ public class GroupData<T extends CompareableData> extends Observable {
     public void setSelectIndex(Integer selectIndex) {
         this.lastSelect = this.selectIndex;
         this.selectIndex = selectIndex;
+    }
+    public S getSetting() {
+        return setting;
+    }
+
+    public void setSetting(S setting) {
+        this.setting = setting;
+        hasChange();
     }
 }

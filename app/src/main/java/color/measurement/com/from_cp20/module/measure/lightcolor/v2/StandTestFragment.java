@@ -22,6 +22,7 @@ import color.measurement.com.from_cp20.manager.res.ResConsts;
 import color.measurement.com.from_cp20.manager.sp.SPConsts;
 import color.measurement.com.from_cp20.manager.NumEndedString;
 import color.measurement.com.from_cp20.manager.res.ResHelper;
+import color.measurement.com.from_cp20.module.been.LCSetting;
 import color.measurement.com.from_cp20.module.been.data.LightColorData;
 import color.measurement.com.from_cp20.module.been.wapper.GroupData;
 import color.measurement.com.from_cp20.module.measure.StandDisplayFragment;
@@ -36,7 +37,7 @@ import color.measurement.com.from_cp20.widget.FSL.DataProcesser;
 public class StandTestFragment extends StandDisplayFragment implements Observer {
 
     String[] titles;
-    GroupData<LightColorData> group;
+    GroupData<LightColorData,LCSetting> group;
 
     public StandTestFragment(SharedPreferences sp) {
         super(sp);
@@ -112,7 +113,7 @@ public class StandTestFragment extends StandDisplayFragment implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-        group = (GroupData<LightColorData>) o;
+        group = (GroupData<LightColorData,LCSetting>) o;
         mHandler.sendEmptyMessage(0);
     }
 

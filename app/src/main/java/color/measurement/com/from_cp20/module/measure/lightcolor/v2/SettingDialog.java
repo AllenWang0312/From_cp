@@ -6,8 +6,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +24,7 @@ import butterknife.Unbinder;
 import color.measurement.com.from_cp20.R;
 import color.measurement.com.from_cp20.common.adapter.MultipleChoiceRecAdapter;
 import color.measurement.com.from_cp20.manager.res.ResHelper;
-import color.measurement.com.from_cp20.manager.sp.SPConsts;
+import color.measurement.com.from_cp20.module.been.LCSetting;
 
 /**
  * Created by wpc on 2017/3/31.
@@ -57,23 +56,31 @@ public class SettingDialog extends DialogFragment {
     Context mContext;
     int index;
     Unbinder unbinder;
-    SharedPreferences sp;
+    //    SharedPreferences sp;
+    LCSetting mSetting;
     //    String[] type;
     DialogInterface.OnClickListener mPosOnClickListener;
 
-    ArrayList<String> selected, unselect, all;
+    List<String>
+            selected,
+    //            unselect, 
+    all;
+
     boolean[] checkState;
 
-    public SettingDialog(int index, DialogInterface.OnClickListener listener) {
+    public SettingDialog(int index, LCSetting settings) {
         this.index = index;
-        mPosOnClickListener = listener;
+        mSetting = settings;
+    }
+
+    public void setPositive(DialogInterface.OnClickListener mPosOnClickListener) {
+        this.mPosOnClickListener = mPosOnClickListener;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-        sp = mContext.getSharedPreferences(SPConsts.PREFERENCE_LIGHT_COLOR, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -82,63 +89,37 @@ public class SettingDialog extends DialogFragment {
         builder.setTitle("设置");
         View v = LayoutInflater.from(mContext).inflate(R.layout.dialog_setting_lightcolor, null);
         unbinder = ButterKnife.bind(this, v);
-        selected = ResHelper.getCheckedTitlesFromSp(mContext, SPConsts.PREFERENCE_LIGHT_COLOR, R.array.db_base_data);
         all = ResHelper.getallTitlesFromRes(mContext, R.array.db_base_data);
         checkState = getCheckState(selected, all);
-
-        unselect = new ArrayList<>();
         initViews();
         refesh();
         final MultipleChoiceRecAdapter adapter = new MultipleChoiceRecAdapter(mContext, checkState, all);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(adapter);
-//        mLvSelectedDateType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                unselect.add(selected.get(position));
-//                selected.remove(position);
-//                refesh();
-//            }
-//        });
-//        mLvUnselectedDateType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                selected.add(unselect.get(position));
-//                unselect.remove(position);
-//                refesh();
-//            }
-//        });
         builder.setView(v);
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Editor edit = sp.edit();
                 if (index == 0) {
-                    edit.putInt(SPConsts.STAND_DATA_DISPLAY_TYPE, mSp.getSelectedItemPosition());
-                    edit.putInt(SPConsts.ANGLE_SET, mSpAngleSet.getSelectedItemPosition());
-                    edit.putInt(SPConsts.LIGHT_SET, mSpLightSet.getSelectedItemPosition());
-                    edit.putInt(SPConsts.TEST_MOD, mSpTestMod.getSelectedItemPosition());
-                    edit.putInt(SPConsts.AVERAGE_TIMES, mSpTestTimes.getSelectedItemPosition());
-                    edit.putInt(SPConsts.STAND_DATA_MOD, mRgStandShowMode.getSelectedItemPosition());
-                    edit.putBoolean(SPConsts.STAND_AUTO_NAME, mCbStandAutoNamed.isChecked());
+                    mSetting.getStand().setStand_data_display_type(mSp.getSelectedItemPosition());
+                    mSetting.getStand().setAngle(mSpAngleSet.getSelectedItemPosition());
+                    mSetting.getStand().setLight(mSpLightSet.getSelectedItemPosition());
+                    mSetting.getStand().setTest_mod(mSpTestMod.getSelectedItemPosition());
+                    mSetting.getStand().setAverage_times(mSpTestTimes.getSelectedItemPosition());
+                    mSetting.getStand().setStand_view_mod(mRgStandShowMode.getSelectedItemPosition());
+                    mSetting.getStand().setStand_auto_name(mCbStandAutoNamed.isChecked());
                 } else {
-                    for (String str : all) {
-                        if (selected.contains(str)) {
-                            edit.putBoolean(str, true);
-                        } else {
-                            edit.putBoolean(str, false);
+                    List<String> checed = new ArrayList<String>();
+                    boolean[] checkstate = adapter.getCheck_state();
+                    for (int i = 0; i < checkstate.length; i++) {
+                        if (checkstate[i]) {
+                            checed.add(all.get(i));
                         }
                     }
-                    edit.putInt(SPConsts.SIMPLE_DATA_MOD, mRgSimpleShowMode.getSelectedItemPosition());
-                    edit.putBoolean(SPConsts.SIMPLE_AUTO_NAME, mCbSimpleAutoNamed.isChecked());
+                    mSetting.getTest().setTest_data_display_type(checed);
+                    mSetting.getTest().setTest_view_mod(mRgSimpleShowMode.getSelectedItemPosition());
+                    mSetting.getTest().setTest_auto_name(mCbSimpleAutoNamed.isChecked());
                 }
-
-//                int count = mFbl.getChildCount();
-//                for (int i = 0; i < count; i++) {
-//                    edit.putBoolean(type[i], ((CheckBox) mFbl.getChildAt(i)).isChecked());
-//                }
-                edit.commit();
-                ResHelper.saveState( adapter.getCheck_state(), adapter.getDatas(), sp);
                 mPosOnClickListener.onClick(dialog, which);
             }
         });
@@ -147,7 +128,7 @@ public class SettingDialog extends DialogFragment {
         return builder.create();
     }
 
-    private boolean[] getCheckState(ArrayList<String> selected, ArrayList<String> all) {
+    private boolean[] getCheckState(List<String> selected, List<String> all) {
         boolean[] checkstate = new boolean[all.size()];
         for (int i = 0; i < all.size(); i++) {
             if (selected.contains(all.get(i))) {
@@ -160,36 +141,39 @@ public class SettingDialog extends DialogFragment {
     }
 
     private void initViews() {
+        selected = mSetting.getTest().getTest_data_display_type();
         if (index == 0) {
             mTlSimpleSetting.setVisibility(View.GONE);
             mTlStandSetting.setVisibility(View.VISIBLE);
+            mSp.setSelection(mSetting.getStand().getStand_data_display_type());
+            mSpAngleSet.setSelection(mSetting.getStand().getAngle());
+            mSpLightSet.setSelection(mSetting.getStand().getLight());
+            mSpTestMod.setEnabled(false);
+            mSpTestMod.setSelection(mSetting.getStand().getTest_mod());
+            mSpTestTimes.setSelection(mSetting.getStand().getAverage_times());
+            mRgStandShowMode.setSelection(mSetting.getStand().getStand_view_mod());
+            mCbStandAutoNamed.setChecked(mSetting.getStand().isStand_auto_name());
         } else {
+
             mTlSimpleSetting.setVisibility(View.VISIBLE);
             mTlStandSetting.setVisibility(View.GONE);
-        }
-        for (String str : all) {
-            if (selected.contains(str)) {
-                continue;
-            }
-            unselect.add(str);
-        }
-        mSp.setSelection(sp.getInt(SPConsts.STAND_DATA_DISPLAY_TYPE, 0));
-        mSpAngleSet.setSelection(sp.getInt(SPConsts.ANGLE_SET, 0));
-        mSpLightSet.setSelection(sp.getInt(SPConsts.LIGHT_SET, 0));
-        mSpTestMod.setEnabled(false);
-        mSpTestMod.setSelection(sp.getInt(SPConsts.TEST_MOD, 0));
-        mSpTestTimes.setSelection(sp.getInt(SPConsts.AVERAGE_TIMES, 0));
 
-        mRgStandShowMode.setSelection(sp.getInt(SPConsts.STAND_DATA_MOD, 1));
-        mRgSimpleShowMode.setSelection(sp.getInt(SPConsts.SIMPLE_DATA_MOD, 0));
-
-        mCbStandAutoNamed.setChecked(sp.getBoolean(SPConsts.STAND_AUTO_NAME, true));
-        mCbSimpleAutoNamed.setChecked(sp.getBoolean(SPConsts.SIMPLE_AUTO_NAME, true));
+            mRgSimpleShowMode.setSelection(mSetting.getTest().getTest_view_mod());
+            mCbSimpleAutoNamed.setChecked(mSetting.getTest().isTest_auto_name());
+        }
+//        for (String str : all) {
+//            if (selected.contains(str)) {
+//                continue;
+//            }
+//            unselect.add(str);
+//        }
     }
 
     private void refesh() {
-//        mLvSelectedDateType.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, selected));
-//        mLvUnselectedDateType.setAdapter(new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, unselect));
+    }
+
+    public LCSetting getSetting() {
+        return mSetting;
     }
 
     @Override

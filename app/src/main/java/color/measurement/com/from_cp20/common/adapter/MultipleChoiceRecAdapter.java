@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wpc on 2017/5/2.
@@ -19,9 +19,9 @@ public class MultipleChoiceRecAdapter extends RecyclerView.Adapter<MultipleChoic
     Context mContext;
 
     boolean[] check_state;
-    ArrayList<String> datas;
+   List<String> datas;
 
-    public MultipleChoiceRecAdapter(Context context, boolean[] check_state, ArrayList<String> datas) {
+    public MultipleChoiceRecAdapter(Context context, boolean[] check_state, List<String> datas) {
         mContext = context;
         this.check_state = check_state;
         this.datas = datas;
@@ -65,7 +65,6 @@ public class MultipleChoiceRecAdapter extends RecyclerView.Adapter<MultipleChoic
         for (int i = 0; i <check_state.length ; i++) {
             Log.i("check_state"+i, String.valueOf(check_state[i]));
         }
-
         return check_state;
     }
 
@@ -73,11 +72,11 @@ public class MultipleChoiceRecAdapter extends RecyclerView.Adapter<MultipleChoic
         this.check_state = check_state;
     }
 
-    public ArrayList<String> getDatas() {
+    public List<String> getDatas() {
         return datas;
     }
 
-    public void setDatas(ArrayList<String> datas) {
+    public void setDatas(List<String> datas) {
         this.datas = datas;
     }
 }

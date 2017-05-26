@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import color.measurement.com.from_cp20.R;
 import color.measurement.com.from_cp20.base.ProgressDialogActivity;
 import color.measurement.com.from_cp20.manager.Ble_4.BlueToothManagerForBLE;
+import color.measurement.com.from_cp20.manager.Ble_4.bean.Setting;
 import color.measurement.com.from_cp20.manager.db.DBConsts;
 import color.measurement.com.from_cp20.manager.db.DBHelper;
 import color.measurement.com.from_cp20.manager.sp.SPConsts;
@@ -26,7 +27,7 @@ import es.dmoral.toasty.Toasty;
  * Created by wpc on 2017/5/7.
  */
 
-public abstract class MeasureActivity<T extends CompareableData> extends ProgressDialogActivity {
+public abstract class MeasureActivity<T extends CompareableData,S extends Setting> extends ProgressDialogActivity {
 
     @BindView(R.id.toolbar) protected Toolbar mToolbar;
     @BindView(R.id.viewPager) protected CustomViewPager mViewPager;
@@ -35,8 +36,8 @@ public abstract class MeasureActivity<T extends CompareableData> extends Progres
     @BindView(R.id.ll3_save) protected LinearLayout mLl3Save;
     @BindView(R.id.ll4_check) protected LinearLayout mLl4Check;
 
-    protected GroupData<T> mGroupData;
-
+    protected GroupData<T,S> mGroupData;
+    protected Setting setting;
     protected Context mContext;
     protected SharedPreferences sp;
     protected SQLiteDatabase db;

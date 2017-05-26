@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import butterknife.OnClick;
@@ -23,9 +24,12 @@ import color.measurement.com.from_cp20.manager.Ble_4.BlueToothManagerForBLE;
 import color.measurement.com.from_cp20.manager.Ble_4.bean.BLE_Order;
 import color.measurement.com.from_cp20.manager.Ble_4.bean.LightColorDataPackager;
 import color.measurement.com.from_cp20.manager.NumEndedString;
+import color.measurement.com.from_cp20.manager.db.MySqlConsts;
+import color.measurement.com.from_cp20.manager.db.MySqlHelper;
 import color.measurement.com.from_cp20.manager.res.ResConsts;
 import color.measurement.com.from_cp20.manager.res.ResHelper;
 import color.measurement.com.from_cp20.manager.sp.SPConsts;
+import color.measurement.com.from_cp20.module.App;
 import color.measurement.com.from_cp20.module.been.LCSetting;
 import color.measurement.com.from_cp20.module.been.data.LightColorData;
 import color.measurement.com.from_cp20.module.been.wapper.GroupData;
@@ -45,12 +49,10 @@ public class LightColor2Activity extends MeasureActivity {
     LightColorData result_sim;
     TestFragment mGroupFrag;
     StandTestFragment mStandFrag;
-
+    
     Gson gson = new Gson();
-
-    LCSetting setting;
-
     private Handler mHandler = new Handler();
+    MySqlHelper instance;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -72,6 +74,7 @@ public class LightColor2Activity extends MeasureActivity {
         if (settingStr == null) {
             settingStr = i.getStringExtra("settingStr");
             setting = gson.fromJson(settingStr, LCSetting.class);
+            mGroupData.setSetting(setting);
         }
 
         standName = i.getStringExtra("standName");
@@ -92,11 +95,8 @@ public class LightColor2Activity extends MeasureActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sp = mContext.getSharedPreferences(SPConsts.PREFERENCE_LIGHT_COLOR, MODE_PRIVATE);
-//        showProgressDialog("请稍后", "正在连接仪器");
-//        mHandler.postDelayed(connectCallBack, 10000);
+        instance = MySqlHelper.getInstance(mContext);
         mManagerForBLE = BlueToothManagerForBLE.getInstance(this);
-//        mManagerForBLE.regeisterReceiver(this);
         initPages();
         mGroupData = new GroupData();
         mGroupData.addObserver(mStandFrag);
@@ -198,9 +198,6 @@ public class LightColor2Activity extends MeasureActivity {
             } else {
                 T.showError(mContext, "请先测量试样");
             }
-//            mGroupData = new GroupData();
-//            mViewPager.setCurrentItem(0);
-//            T.showSuccess(mContext, "保存成功");
         }
     }
 
@@ -243,24 +240,8 @@ public class LightColor2Activity extends MeasureActivity {
                             (LightColorData) mGroupData.getStand(), result_sim
                     );
                     Boolean bol = ResHelper.getResultWithCheckItems(resultAndDValues);
-//                            Boolean b = comple(getCompare_titles(LightColorActivity.this), gd.getStand().getResultData().toHashMap(), result_sim.getResultData().toHashMap(), getRCSet());
                     result_sim.setResult(bol);
                     mGroupData.addTest(result_sim);
-//                    if (sp.getBoolean(SPConsts.SIMPLE_AUTO_NAME, true)) {
-//                        result_sim.setName(sp.getString(SPConsts.SIMPLE_TARGET_NAME, "default_name") + String.format("%03d", mGroupData.getTests().size() + 1));
-//                    }
-//                    if (mGroupData.getStand() != null && mGroupData.getStand().getStand_name() != null) {
-//                        result_sim.setStand_name(mGroupData.getStand().getStand_name());
-//                    }
-//                    ArrayList<String> titles = ResHelper.getChecked_titles(mContext, sp, R.array.gzd_angles, ResConsts.lustre_title);
-//                    ResultAndDValues resultAndDValues = ResHelper.getWC(
-//                            titles,
-//                            ResHelper.getSettings(titles, sp),
-//                            (LustreData) mGroupData.getStand(), result_sim
-//                    );
-//                    Boolean bol = ResHelper.getResultWithCheckItems(resultAndDValues);
-//                    result_sim.setResult(bol);
-//                    mGroupData.addTest(result_sim);
                 }
             }
             return null;
@@ -336,13 +317,28 @@ public class LightColor2Activity extends MeasureActivity {
                 onBackPressed();
                 break;
             case R.id.setting_light_color:
-                new color.measurement.com.from_cp20.module.measure.lightcolor.v2.SettingDialog(mViewPager.getCurrentItem(), new DialogInterface.OnClickListener() {
+                final SettingDialog settingDialog = new SettingDialog(
+                        mViewPager.getCurrentItem(), (LCSetting) setting);
+                settingDialog.setPositive(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sp = mContext.getSharedPreferences(SPConsts.PREFERENCE_LIGHT_COLOR, MODE_PRIVATE);
+                        setting = settingDialog.mSetting;
+                        new MySqlHelper.MySQLAsyTask(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    instance.mStatement.executeUpdate("update "+ MySqlConsts.ins_table+
+                                            " where userId = '"+ App.logged_user.getService_id()+"' and address = '"+bleAddress+"' set setting ='"+
+                                 gson.toJson(setting)  +"'");
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, true);
                         mGroupData.hasChange();
                     }
-                }).show(getFragmentManager(), "setting");
+                });
+                settingDialog.show(getFragmentManager(), "setting");
                 break;
             case R.id.simple_test:
                 mViewPager.setCurrentItem(0, true);
@@ -357,10 +353,11 @@ public class LightColor2Activity extends MeasureActivity {
                 } else {
                     T.showWarning(mContext, "请先测量标样数据");
                 }
-
                 break;
             case R.id.data_light_color:
-                LightColorDBActivity.startWithIntent(this, getTableName());
+                LightColorDBActivity.startWithIntent(this,
+
+                        getTableName());
         }
         return true;
     }
